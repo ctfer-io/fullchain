@@ -56,6 +56,7 @@ func main() {
 			CTFdImage:        pulumi.String("ctferio/ctfd:3.7.7-0.3.0"),
 			ChartsRepository: pulumi.String(""),
 			ImagesRepository: pulumi.String(""),
+			ChallManagerUrl:  pulumi.Sprintf("http://%s/api/v1", ch.Endpoint),
 		}, opts...)
 		if err != nil {
 			return err
