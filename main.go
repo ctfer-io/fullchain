@@ -38,7 +38,9 @@ func main() {
 
 		// => Chall-Manager
 		ch, err := challmanager.NewChallManager(ctx, "chall-manager", &challmanager.ChallManagerArgs{
-			Namespace: ns.Metadata.Name().Elem(),
+			Kubeconfig: cfg.ChallKubeConfig,
+			Tag:        pulumi.String("v0.4.3"),
+			Namespace:  ns.Metadata.Name().Elem(),
 			Otel: &common.OtelArgs{
 				Endpoint: mon.OTEL.Endpoint,
 				Insecure: true, // XXX @pandatix fix this shit
@@ -53,7 +55,7 @@ func main() {
 		ctfer, err := ctfer.NewCTFer(ctx, "platform", &ctfer.CTFerArgs{
 			Namespace:        ns.Metadata.Name().Elem(),
 			Hostname:         pulumi.String("ctfd.24hiut2025.ctfer.io"),
-			CTFdImage:        pulumi.String("ctferio/ctfd:3.7.7-0.3.0"),
+			CTFdImage:        pulumi.String("ctferio/ctfd:3.7.7-0.3.2"),
 			ChartsRepository: pulumi.String(""),
 			ImagesRepository: pulumi.String(""),
 			ChallManagerUrl:  pulumi.Sprintf("http://%s/api/v1", ch.Endpoint),
@@ -68,12 +70,14 @@ func main() {
 }
 
 type Config struct {
-	ColdExtract bool
+	ColdExtract     bool
+	ChallKubeConfig pulumi.StringInput
 }
 
 func InitConfig(ctx *pulumi.Context) (*Config, error) {
 	cfg := config.New(ctx, "")
 	return &Config{
-		ColdExtract: cfg.GetBool("cold-extract"),
+		ColdExtract:     cfg.GetBool("cold-extract"),
+		ChallKubeConfig: cfg.GetSecret("chall-kube-config"),
 	}, nil
 }
