@@ -38,12 +38,12 @@ github.com/cloudflare/circl v1.3.7/go.mod h1:sRTcRWXGLrKw6yIGJ+l7amYJFfAXbZG0kBS
 github.com/containerd/console v1.0.4 h1:F2g4+oChYvBTsASRTz8NP6iIAi97J3TtSAsLbIFn4ro=
 github.com/containerd/console v1.0.4/go.mod h1:YynlIjWYF8myEu6sdkwKIvGQq+cOckRm6So2avqoYAk=
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
-github.com/ctfer-io/chall-manager/deploy v0.4.4-0.20250518090818-96cb163aa28e h1:3gcINl916ER+WLfGS7H4ownHznjppRB4+8daGqeFyQc=
-github.com/ctfer-io/chall-manager/deploy v0.4.4-0.20250518090818-96cb163aa28e/go.mod h1:8/SIn3NFznd80AhWbceP7ua0yjgmcPp20IIrgJR1Zsg=
+github.com/ctfer-io/chall-manager/deploy v0.4.4-0.20250518151552-c070bbcd5e7f h1:b4xpOUuIgp82JaE1FB03OwMwF/6Cz8FQ/hflTkSlYWk=
+github.com/ctfer-io/chall-manager/deploy v0.4.4-0.20250518151552-c070bbcd5e7f/go.mod h1:8/SIn3NFznd80AhWbceP7ua0yjgmcPp20IIrgJR1Zsg=
 github.com/ctfer-io/ctfer v0.0.0-20250518131853-fca959236710 h1:0rYF1lNbj/aADawD6cD23RU61LN+sLrMUbhF8ztTtS4=
 github.com/ctfer-io/ctfer v0.0.0-20250518131853-fca959236710/go.mod h1:uCQY4YCab9eptlROesxTMsNHinl7OlhHVXNZICjI45M=
-github.com/ctfer-io/monitoring v0.0.0-20250508085428-b00043cccf33 h1:/5AGxWTD749OXDuw406s98LrA0CHn0dzM02cgKzLcRU=
-github.com/ctfer-io/monitoring v0.0.0-20250508085428-b00043cccf33/go.mod h1:Cewssts7TU7UaQvYYsftynFrpe2zQhrtC9Y/Uxe+HF8=
+github.com/ctfer-io/monitoring v0.0.0-20250518155252-4409e37aa3e9 h1:iTMt5y3F+2LwCVwAIe3QNDGDOs6m5/pOY2M2XyJ3CVk=
+github.com/ctfer-io/monitoring v0.0.0-20250518155252-4409e37aa3e9/go.mod h1:Cewssts7TU7UaQvYYsftynFrpe2zQhrtC9Y/Uxe+HF8=
 github.com/cyphar/filepath-securejoin v0.3.6 h1:4d9N5ykBnSp5Xn2JkhocYDkOpURL/18CYMpo6xB9uWM=
 github.com/cyphar/filepath-securejoin v0.3.6/go.mod h1:Sdj7gXlvMcPZsbhwhQ33GguGLDGQL7h7bg04C/+u9jI=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

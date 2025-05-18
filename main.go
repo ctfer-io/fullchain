@@ -25,6 +25,7 @@ func main() {
 		// => Monitoring
 		mon, err := monitoring.NewMonitoring(ctx, "monitoring", &monitoring.MonitoringArgs{
 			ColdExtract: cfg.ColdExtract,
+			Registry:    pulumi.String("registry.dev1.ctfer-io.lab"),
 		}, opts...)
 		if err != nil {
 			return err
@@ -38,9 +39,11 @@ func main() {
 
 		// => Chall-Manager
 		ch, err := challmanager.NewChallManager(ctx, "chall-manager", &challmanager.ChallManagerArgs{
-			Kubeconfig: cfg.ChallKubeConfig,
-			Tag:        pulumi.String("v0.4.3"),
-			Namespace:  ns.Metadata.Name().Elem(),
+			EtcdReplicas: pulumi.Int(3),
+			Kubeconfig:   cfg.ChallKubeConfig,
+			Tag:          pulumi.String("v0.4.3"),
+			Registry:     pulumi.String("registry.dev1.ctfer-io.lab"),
+			Namespace:    ns.Metadata.Name().Elem(),
 			Otel: &common.OtelArgs{
 				Endpoint: mon.OTEL.Endpoint,
 				Insecure: true, // XXX @pandatix fix this shit
@@ -58,8 +61,8 @@ func main() {
 			CTFdImage:        pulumi.String("ctferio/ctfd:3.7.7-0.3.2"),
 			CTFdCrt:          cfg.CTFdCrt,
 			CTFdKey:          cfg.CTFdKey,
-			ChartsRepository: pulumi.String(""),
-			ImagesRepository: pulumi.String(""),
+			ChartsRepository: pulumi.String("oci://registry.dev1.ctfer-io.lab/hauler"),
+			ImagesRepository: pulumi.String("registry.dev1.ctfer-io.lab"),
 			ChallManagerUrl:  pulumi.Sprintf("http://%s/api/v1", ch.Endpoint),
 		}, opts...)
 		if err != nil {
