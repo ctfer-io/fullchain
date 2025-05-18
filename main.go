@@ -56,6 +56,8 @@ func main() {
 			Namespace:        ns.Metadata.Name().Elem(),
 			Hostname:         pulumi.String("ctfd.24hiut2025.ctfer.io"),
 			CTFdImage:        pulumi.String("ctferio/ctfd:3.7.7-0.3.2"),
+			CTFdCrt:          cfg.CTFdCrt,
+			CTFdKey:          cfg.CTFdKey,
 			ChartsRepository: pulumi.String(""),
 			ImagesRepository: pulumi.String(""),
 			ChallManagerUrl:  pulumi.Sprintf("http://%s/api/v1", ch.Endpoint),
@@ -72,6 +74,8 @@ func main() {
 type Config struct {
 	ColdExtract     bool
 	ChallKubeConfig pulumi.StringInput
+	CTFdCrt         pulumi.StringInput
+	CTFdKey         pulumi.StringInput
 }
 
 func InitConfig(ctx *pulumi.Context) (*Config, error) {
@@ -79,5 +83,7 @@ func InitConfig(ctx *pulumi.Context) (*Config, error) {
 	return &Config{
 		ColdExtract:     cfg.GetBool("cold-extract"),
 		ChallKubeConfig: cfg.GetSecret("chall-kube-config"),
+		CTFdCrt:         cfg.GetSecret("ctfd-crt"),
+		CTFdKey:         cfg.GetSecret("ctfd-key"),
 	}, nil
 }
