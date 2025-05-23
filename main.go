@@ -9,6 +9,7 @@ import (
 	challmanager "github.com/ctfer-io/chall-manager/deploy/services"
 	ctfer "github.com/ctfer-io/ctfer/services"
 	monitoring "github.com/ctfer-io/monitoring/services"
+	romeoenv "github.com/ctfer-io/romeo/environment/deploy/parts"
 )
 
 func main() {
@@ -37,22 +38,40 @@ func main() {
 			return err
 		}
 
-		// => Chall-Manager
-		ch, err := challmanager.NewChallManager(ctx, "chall-manager", &challmanager.ChallManagerArgs{
-			EtcdReplicas: pulumi.Int(3),
-			Kubeconfig:   cfg.ChallKubeConfig,
-			Tag:          pulumi.String("v0.4.3"),
-			Registry:     pulumi.String("registry.dev1.ctfer-io.lab"),
-			Namespace:    ns.Metadata.Name().Elem(),
-			Otel: &common.OtelArgs{
-				Endpoint: mon.OTEL.Endpoint,
-				Insecure: true, // XXX @pandatix fix this shit
-			},
+		// => Romeo env
+		renv, err := romeoenv.NewRomeoEnvironment(ctx, "romeo-env", &romeoenv.RomeoEnvironmentArgs{
+			Namespace: ns.Metadata.Name().Elem(),
+			Tag:       pulumi.String("24hiut2025"),
+			Registry:  pulumi.String("registry.dev1.ctfer-io.lab"),
+			PVCAccessModes: pulumi.ToStringArray([]string{
+				"ReadWriteMany",
+			}),
 		}, opts...)
 		if err != nil {
 			return err
 		}
-		_ = ch
+
+		// => Chall-Manager
+		ch, err := challmanager.NewChallManager(ctx, "chall-manager", &challmanager.ChallManagerArgs{
+			LogLevel: pulumi.String("info"),
+			Requests: pulumi.ToStringMap(map[string]string{
+				"memory": "2Gi",
+				"cpu":    "4.0",
+			}),
+			Kubeconfig: cfg.ChallKubeConfig,
+			Tag:        pulumi.String("v0.4.4"),
+			Registry:   pulumi.String("registry.dev1.ctfer-io.lab"),
+			Namespace:  ns.Metadata.Name().Elem(),
+			Otel: &common.OtelArgs{
+				Endpoint:    mon.OTEL.Endpoint,
+				ServiceName: pulumi.String("24hiut2025"),
+				Insecure:    true, // XXX @pandatix fix this shit
+			},
+			RomeoClaimName: renv.ClaimName,
+		}, opts...)
+		if err != nil {
+			return err
+		}
 
 		// => CTFer/CTFd
 		ctfer, err := ctfer.NewCTFer(ctx, "platform", &ctfer.CTFerArgs{
@@ -65,11 +84,15 @@ func main() {
 			ChartsRepository: pulumi.String("oci://registry.dev1.ctfer-io.lab/hauler"),
 			ImagesRepository: pulumi.String("registry.dev1.ctfer-io.lab"),
 			ChallManagerUrl:  pulumi.Sprintf("http://%s/api/v1", ch.Endpoint),
+			CTFdWorkers:      pulumi.Int(3),
+			CTFdReplicas:     pulumi.Int(3),
 		}, opts...)
 		if err != nil {
 			return err
 		}
 
+		ctx.Export("namespace", ns.Metadata.Name().Elem())
+		ctx.Export("romeo-claim-name", renv.ClaimName)
 		ctx.Export("url", ctfer.URL)
 		return nil
 	})

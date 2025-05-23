@@ -1,2 +1,4 @@
 Pulumi.*.yaml
-hack/store
+*.crt
+*.key
+*.pem
