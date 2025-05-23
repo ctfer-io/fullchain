@@ -58,9 +58,10 @@ func main() {
 		ctfer, err := ctfer.NewCTFer(ctx, "platform", &ctfer.CTFerArgs{
 			Namespace:        ns.Metadata.Name().Elem(),
 			Hostname:         pulumi.String("ctfd.24hiut2025.ctfer.io"),
-			CTFdImage:        pulumi.String("ctferio/ctfd:3.7.7-0.3.2"),
+			CTFdImage:        pulumi.String("ctferio/ctfd:3.7.7-0.3.4"),
 			CTFdCrt:          cfg.CTFdCrt,
 			CTFdKey:          cfg.CTFdKey,
+			CTFdStorageSize:  pulumi.String("30Gi"),
 			ChartsRepository: pulumi.String("oci://registry.dev1.ctfer-io.lab/hauler"),
 			ImagesRepository: pulumi.String("registry.dev1.ctfer-io.lab"),
 			ChallManagerUrl:  pulumi.Sprintf("http://%s/api/v1", ch.Endpoint),
