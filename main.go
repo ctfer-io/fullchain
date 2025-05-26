@@ -56,12 +56,13 @@ func main() {
 			LogLevel: pulumi.String("info"),
 			Requests: pulumi.ToStringMap(map[string]string{
 				"memory": "2Gi",
-				"cpu":    "4.0",
+				"cpu":    "1.0",
 			}),
-			Kubeconfig: cfg.ChallKubeConfig,
-			Tag:        pulumi.String("v0.4.4"),
-			Registry:   pulumi.String("registry.dev1.ctfer-io.lab"),
-			Namespace:  ns.Metadata.Name().Elem(),
+			PVCStorageSize: pulumi.String("50Gi"),
+			Kubeconfig:     cfg.ChallKubeConfig,
+			Tag:            pulumi.String("v0.4.4"),
+			Registry:       pulumi.String("registry.dev1.ctfer-io.lab"),
+			Namespace:      ns.Metadata.Name().Elem(),
 			Otel: &common.OtelArgs{
 				Endpoint:    mon.OTEL.Endpoint,
 				ServiceName: pulumi.String("24hiut2025"),
@@ -84,8 +85,8 @@ func main() {
 			ChartsRepository: pulumi.String("oci://registry.dev1.ctfer-io.lab/hauler"),
 			ImagesRepository: pulumi.String("registry.dev1.ctfer-io.lab"),
 			ChallManagerUrl:  pulumi.Sprintf("http://%s/api/v1", ch.Endpoint),
-			CTFdWorkers:      pulumi.Int(3),
-			CTFdReplicas:     pulumi.Int(3),
+			CTFdWorkers:      pulumi.Int(1),
+			CTFdReplicas:     pulumi.Int(1),
 		}, opts...)
 		if err != nil {
 			return err
