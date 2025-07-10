@@ -9,7 +9,6 @@ import (
 	challmanager "github.com/ctfer-io/chall-manager/deploy/services"
 	ctfer "github.com/ctfer-io/ctfer/services"
 	monitoring "github.com/ctfer-io/monitoring/services"
-	romeoenv "github.com/ctfer-io/romeo/environment/deploy/parts"
 )
 
 func main() {
@@ -24,10 +23,13 @@ func main() {
 		opts := []pulumi.ResourceOption{}
 
 		// => Monitoring
-		mon, err := monitoring.NewMonitoring(ctx, "monitoring", &monitoring.MonitoringArgs{
+		monConf := &monitoring.MonitoringArgs{
 			ColdExtract: cfg.ColdExtract,
-			Registry:    pulumi.String("registry.dev1.ctfer-io.lab"),
-		}, opts...)
+		}
+		if cfg.Registry != "" {
+			monConf.Registry = pulumi.String(cfg.Registry)
+		}
+		mon, err := monitoring.NewMonitoring(ctx, "monitoring", monConf, opts...)
 		if err != nil {
 			return err
 		}
@@ -38,62 +40,56 @@ func main() {
 			return err
 		}
 
-		// => Romeo env
-		renv, err := romeoenv.NewRomeoEnvironment(ctx, "romeo-env", &romeoenv.RomeoEnvironmentArgs{
-			Namespace: ns.Metadata.Name().Elem(),
-			Tag:       pulumi.String("24hiut2025"),
-			Registry:  pulumi.String("registry.dev1.ctfer-io.lab"),
-			PVCAccessModes: pulumi.ToStringArray([]string{
-				"ReadWriteMany",
-			}),
-		}, opts...)
-		if err != nil {
-			return err
-		}
-
 		// => Chall-Manager
-		ch, err := challmanager.NewChallManager(ctx, "chall-manager", &challmanager.ChallManagerArgs{
+		cmConf := &challmanager.ChallManagerArgs{
 			LogLevel: pulumi.String("info"),
 			Requests: pulumi.ToStringMap(map[string]string{
 				"memory": "2Gi",
 				"cpu":    "1.0",
 			}),
-			PVCStorageSize: pulumi.String("50Gi"),
-			Kubeconfig:     cfg.ChallKubeConfig,
-			Tag:            pulumi.String("v0.4.4"),
-			Registry:       pulumi.String("registry.dev1.ctfer-io.lab"),
-			Namespace:      ns.Metadata.Name().Elem(),
+			PVCStorageSize: pulumi.String("10Gi"),
+			Tag:            pulumi.String("v0.4.5"),
+
+			Namespace: ns.Metadata.Name().Elem(),
 			Otel: &common.OtelArgs{
 				Endpoint:    mon.OTEL.Endpoint,
 				ServiceName: pulumi.String("24hiut2025"),
 				Insecure:    true, // XXX @pandatix fix this shit
 			},
-			RomeoClaimName: renv.ClaimName,
-		}, opts...)
+		}
+
+		if cfg.Registry != "" {
+			cmConf.Registry = pulumi.String(cfg.Registry)
+		}
+		ch, err := challmanager.NewChallManager(ctx, "chall-manager", cmConf, opts...)
 		if err != nil {
 			return err
 		}
 
 		// => CTFer/CTFd
-		ctfer, err := ctfer.NewCTFer(ctx, "platform", &ctfer.CTFerArgs{
-			Namespace:        ns.Metadata.Name().Elem(),
-			Hostname:         pulumi.String("ctfd.24hiut2025.ctfer.io"),
-			CTFdImage:        pulumi.String("ctferio/ctfd:3.7.7-0.3.4"),
-			CTFdCrt:          cfg.CTFdCrt,
-			CTFdKey:          cfg.CTFdKey,
-			CTFdStorageSize:  pulumi.String("30Gi"),
-			ChartsRepository: pulumi.String("oci://registry.dev1.ctfer-io.lab/hauler"),
-			ImagesRepository: pulumi.String("registry.dev1.ctfer-io.lab"),
-			ChallManagerUrl:  pulumi.Sprintf("http://%s/api/v1", ch.Endpoint),
-			CTFdWorkers:      pulumi.Int(1),
-			CTFdReplicas:     pulumi.Int(1),
-		}, opts...)
+		ctfdConf := &ctfer.CTFerArgs{
+			Namespace:       ns.Metadata.Name().Elem(),
+			Hostname:        cfg.CTFdHostname,
+			CTFdImage:       pulumi.String("ctferio/ctfd:3.7.7-0.3.4"),
+			CTFdCrt:         cfg.CTFdCrt,
+			CTFdKey:         cfg.CTFdKey,
+			CTFdStorageSize: pulumi.String("10Gi"),
+			ChallManagerUrl: pulumi.Sprintf("http://%s/api/v1", ch.Endpoint),
+		}
+
+		// Air-gapped
+		if cfg.Registry != "" {
+			ctfdConf.ImagesRepository = pulumi.String(cfg.Registry)
+			ctfdConf.ChartsRepository = pulumi.Sprintf("oci://%s/hauler", cfg.Registry)
+		}
+
+		ctfer, err := ctfer.NewCTFer(ctx, "platform", ctfdConf, opts...)
+
 		if err != nil {
 			return err
 		}
 
 		ctx.Export("namespace", ns.Metadata.Name().Elem())
-		ctx.Export("romeo-claim-name", renv.ClaimName)
 		ctx.Export("url", ctfer.URL)
 		return nil
 	})
@@ -104,14 +100,17 @@ type Config struct {
 	ChallKubeConfig pulumi.StringInput
 	CTFdCrt         pulumi.StringInput
 	CTFdKey         pulumi.StringInput
+	CTFdHostname    pulumi.StringInput
+	Registry        string
 }
 
 func InitConfig(ctx *pulumi.Context) (*Config, error) {
 	cfg := config.New(ctx, "")
 	return &Config{
-		ColdExtract:     cfg.GetBool("cold-extract"),
-		ChallKubeConfig: cfg.GetSecret("chall-kube-config"),
-		CTFdCrt:         cfg.GetSecret("ctfd-crt"),
-		CTFdKey:         cfg.GetSecret("ctfd-key"),
+		ColdExtract:  cfg.GetBool("cold-extract"),
+		CTFdCrt:      cfg.RequireSecret("ctfd-crt"),
+		CTFdKey:      cfg.RequireSecret("ctfd-key"),
+		CTFdHostname: pulumi.String(cfg.Require("ctfd-hostname")),
+		Registry:     cfg.Get("registry"),
 	}, nil
 }

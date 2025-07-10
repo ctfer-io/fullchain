@@ -1,2 +1,31 @@
 name: fullchain
 runtime: go
+config:
+  cold-extract:
+    type: boolean
+    description: 'If set to true, turns on OpenTelemetry cold extract in files. This will export the 3 signales PersistentVolumeClaims in which data is stored.'
+    default: false
+  registry:
+    type: string
+    description: 'An optional OCI registry to download Docker images from.'
+    default: ""
+  chall-kube-config:
+    type: string
+    secret: true
+    description: A kubeconfig to use rather than the default ServiceAccount.
+    default: ""
+  ctfd-crt:
+    type: string
+    secret: true
+    description: Content of the .crt x509 certificate pair
+  ctfd-key:
+    type: string
+    secret: true
+    description: Content of the .key x509 certificate pair
+  ctfd-hostname:
+    type: string
+    description: The URL to use for CTFd
+
+author: CTFer.io
+license: Apache-2.0
+website: https://github.com/ctfer-io/fullchain

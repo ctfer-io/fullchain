@@ -23,9 +23,9 @@ metadata:
 spec:
   images:
     # monitoring
-    - name: jaegertracing/all-in-one:1.60.0
-    - name: otel/opentelemetry-collector-contrib:0.107.0
-    - name: prom/prometheus:v2.53.2
+    - name: jaegertracing/jaeger:2.8.0
+    - name: otel/opentelemetry-collector-contrib:0.129.1
+    - name: prom/prometheus:v3.4.2  
 ---
 apiVersion: content.hauler.cattle.io/v1
 kind: Images
