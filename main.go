@@ -63,7 +63,7 @@ func main() {
 			Namespace: ns.Name,
 			Otel: &common.OtelArgs{
 				Endpoint:    mon.OTEL.Endpoint,
-				ServiceName: pulumi.String("24hiut2025"),
+				ServiceName: pulumi.String(ctx.Stack()),
 				Insecure:    true, // XXX @pandatix fix this shit
 			},
 		}
@@ -76,7 +76,7 @@ func main() {
 			return err
 		}
 
-		// => CTFer/CTFd
+		// // => CTFer/CTFd
 		ctfdConf := &ctfer.CTFerArgs{
 			Namespace:       ns.Name,
 			Hostname:        cfg.CTFdHostname,
@@ -87,9 +87,9 @@ func main() {
 			ChallManagerUrl: pulumi.Sprintf("http://%s/api/v1", cm.Endpoint),
 
 			// => Ingress-related configuration
-			IngressNamespace: pulumi.String("ingress"),
-			IngressLabels:    pulumi.ToStringMap(map[string]string{
-				// ... fill me up !
+			IngressNamespace: pulumi.String("ingress-controller"),
+			IngressLabels: pulumi.ToStringMap(map[string]string{
+				"app.kubernetes.io/name": "traefik",
 			}),
 		}
 
@@ -104,6 +104,18 @@ func main() {
 			return err
 		}
 
+		// Additional netpol
+		cmLabels := pulumi.StringMap{
+			"app.kubernetes.io/component": pulumi.String("chall-manager"),
+			"app.kubernetes.io/part-of":   pulumi.String("chall-manager"),
+			"ctfer.io/stack-name":         pulumi.String(ctx.Stack()),
+		}
+
+		ctfdLabels := pulumi.StringMap{
+			"app.kubernetes.io/component": pulumi.String("ctfd"),
+			"app.kubernetes.io/part-of":   pulumi.String("ctfer"),
+			"ctfer.io/stack-name":         pulumi.String(ctx.Stack()),
+		}
 		if _, err := netwv1.NewNetworkPolicy(ctx, "ctfd-to-cm", &netwv1.NetworkPolicyArgs{
 			Metadata: metav1.ObjectMetaArgs{
 				Namespace: ns.Name,
@@ -117,7 +129,7 @@ func main() {
 					"Egress",
 				}),
 				PodSelector: metav1.LabelSelectorArgs{
-					MatchLabels: ctfer.PodLabels,
+					MatchLabels: ctfdLabels,
 				},
 				Egress: netwv1.NetworkPolicyEgressRuleArray{
 					netwv1.NetworkPolicyEgressRuleArgs{
@@ -129,7 +141,7 @@ func main() {
 									},
 								},
 								PodSelector: metav1.LabelSelectorArgs{
-									MatchLabels: cm.PodLabels,
+									MatchLabels: cmLabels,
 								},
 							},
 						},
@@ -159,7 +171,7 @@ func main() {
 					"Ingress",
 				}),
 				PodSelector: metav1.LabelSelectorArgs{
-					MatchLabels: cm.PodLabels,
+					MatchLabels: cmLabels,
 				},
 				Ingress: netwv1.NetworkPolicyIngressRuleArray{
 					netwv1.NetworkPolicyIngressRuleArgs{
@@ -171,13 +183,14 @@ func main() {
 									},
 								},
 								PodSelector: metav1.LabelSelectorArgs{
-									MatchLabels: ctfer.PodLabels,
+									MatchLabels: ctfdLabels,
 								},
 							},
 						},
 						Ports: netwv1.NetworkPolicyPortArray{
 							netwv1.NetworkPolicyPortArgs{
-								Port: parseURLPort(ctfer.URL),
+								Port:     parsePort(cm.Endpoint),
+								Protocol: pulumi.String("TCP"),
 							},
 						},
 					},
@@ -188,6 +201,7 @@ func main() {
 		}
 
 		ctx.Export("namespace", ns.Name)
+		ctx.Export("chall-manager-endpoint", cm.Endpoint)
 		ctx.Export("url", ctfer.URL)
 		return nil
 	})
