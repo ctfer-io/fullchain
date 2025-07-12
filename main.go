@@ -15,8 +15,8 @@ import (
 
 	"github.com/ctfer-io/chall-manager/deploy/common"
 	challmanager "github.com/ctfer-io/chall-manager/deploy/services"
-	"github.com/ctfer-io/chall-manager/deploy/services/parts"
 	ctfer "github.com/ctfer-io/ctfer/services"
+	"github.com/ctfer-io/fullchain/parts"
 	monitoring "github.com/ctfer-io/monitoring/services"
 )
 
@@ -44,7 +44,9 @@ func main() {
 		}
 
 		// => Namespace to deploy the platform
-		ns, err := parts.NewNamespace(ctx, "ctf", &parts.NamespaceArgs{}, opts...)
+		ns, err := parts.NewNamespace(ctx, "ctf", &parts.NamespaceArgs{
+			Name: pulumi.String("fullchain"),
+		}, opts...)
 		if err != nil {
 			return err
 		}
