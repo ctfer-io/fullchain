@@ -3,10 +3,11 @@ module github.com/ctfer-io/fullchain
 go 1.24.3
 
 require (
-	github.com/ctfer-io/chall-manager/deploy v0.4.5
+	github.com/ctfer-io/chall-manager/deploy v0.4.6-0.20250711200624-0c9edc5851c4
 	github.com/ctfer-io/ctfer v0.0.0-20250711171151-ce0102405108
 	github.com/ctfer-io/monitoring v0.1.0
 	github.com/pkg/errors v0.9.1
+	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.23.0
 	github.com/pulumi/pulumi/sdk/v3 v3.181.0
 )
 
@@ -67,7 +68,6 @@ require (
 	github.com/pkg/term v1.1.0 // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.14.3 // indirect
-	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.23.0 // indirect
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.2 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect

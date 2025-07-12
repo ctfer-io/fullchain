@@ -12,11 +12,12 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 
 	// romeoenv "github.com/ctfer-io/romeo/environment/deploy/parts"
+
 	"github.com/ctfer-io/chall-manager/deploy/common"
 	challmanager "github.com/ctfer-io/chall-manager/deploy/services"
+	"github.com/ctfer-io/chall-manager/deploy/services/parts"
 	ctfer "github.com/ctfer-io/ctfer/services"
 	monitoring "github.com/ctfer-io/monitoring/services"
-	"github.com/ctfer-io/monitoring/services/parts"
 )
 
 func main() {
@@ -43,9 +44,7 @@ func main() {
 		}
 
 		// => Namespace to deploy the platform
-		ns, err := parts.NewNamespace(ctx, "ctf", &parts.NamespaceArgs{
-			Name: pulumi.String("ctfer"),
-		}, opts...)
+		ns, err := parts.NewNamespace(ctx, "ctf", &parts.NamespaceArgs{}, opts...)
 		if err != nil {
 			return err
 		}
@@ -104,18 +103,6 @@ func main() {
 			return err
 		}
 
-		// Additional netpol
-		cmLabels := pulumi.StringMap{
-			"app.kubernetes.io/component": pulumi.String("chall-manager"),
-			"app.kubernetes.io/part-of":   pulumi.String("chall-manager"),
-			"ctfer.io/stack-name":         pulumi.String(ctx.Stack()),
-		}
-
-		ctfdLabels := pulumi.StringMap{
-			"app.kubernetes.io/component": pulumi.String("ctfd"),
-			"app.kubernetes.io/part-of":   pulumi.String("ctfer"),
-			"ctfer.io/stack-name":         pulumi.String(ctx.Stack()),
-		}
 		if _, err := netwv1.NewNetworkPolicy(ctx, "ctfd-to-cm", &netwv1.NetworkPolicyArgs{
 			Metadata: metav1.ObjectMetaArgs{
 				Namespace: ns.Name,
@@ -129,7 +116,7 @@ func main() {
 					"Egress",
 				}),
 				PodSelector: metav1.LabelSelectorArgs{
-					MatchLabels: ctfdLabels,
+					MatchLabels: ctfer.PodLabels,
 				},
 				Egress: netwv1.NetworkPolicyEgressRuleArray{
 					netwv1.NetworkPolicyEgressRuleArgs{
@@ -141,7 +128,7 @@ func main() {
 									},
 								},
 								PodSelector: metav1.LabelSelectorArgs{
-									MatchLabels: cmLabels,
+									MatchLabels: cm.PodLabels,
 								},
 							},
 						},
@@ -171,7 +158,7 @@ func main() {
 					"Ingress",
 				}),
 				PodSelector: metav1.LabelSelectorArgs{
-					MatchLabels: cmLabels,
+					MatchLabels: cm.PodLabels,
 				},
 				Ingress: netwv1.NetworkPolicyIngressRuleArray{
 					netwv1.NetworkPolicyIngressRuleArgs{
@@ -183,7 +170,7 @@ func main() {
 									},
 								},
 								PodSelector: metav1.LabelSelectorArgs{
-									MatchLabels: ctfdLabels,
+									MatchLabels: ctfer.PodLabels,
 								},
 							},
 						},
