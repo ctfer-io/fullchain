@@ -3,7 +3,7 @@ runtime: go
 config:
   cold-extract:
     type: boolean
-    description: 'If set to true, turns on OpenTelemetry cold extract in files. This will export the 3 signales PersistentVolumeClaims in which data is stored.'
+    description: 'If set to true, turns on OpenTelemetry cold extract in files. This will export the 3 signals PersistentVolumeClaims in which data is stored.'
     default: false
   registry:
     type: string
