@@ -2,3 +2,6 @@ Pulumi.*.yaml
 *.crt
 *.key
 *.pem
+
+hack/store
+
