@@ -46,8 +46,8 @@ github.com/containerd/console v1.0.4/go.mod h1:YynlIjWYF8myEu6sdkwKIvGQq+cOckRm6
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
 github.com/ctfer-io/chall-manager/deploy v0.4.6-0.20250711200624-0c9edc5851c4 h1:g39zwrPipJMfINgnMus586b5mZScjb13akwo1CZba18=
 github.com/ctfer-io/chall-manager/deploy v0.4.6-0.20250711200624-0c9edc5851c4/go.mod h1:49C69bN46+jwhyvePKGHiQKBkdwqZd8WewCzKHapx/E=
-github.com/ctfer-io/ctfer v0.0.0-20250711171151-ce0102405108 h1:ZigqZjeRVNHM/KLAcU9qSQlylvNtyuk7PemL2Ub3UCg=
-github.com/ctfer-io/ctfer v0.0.0-20250711171151-ce0102405108/go.mod h1:LLp7RNz028qZ6sJjtV74oJoRvB/GiFNnMW9ktx1RZe4=
+github.com/ctfer-io/ctfer v0.1.0 h1:Tsat0kFt/uV5JT1ZZWra8iL9JXS0PS+ZvPnTL6250S8=
+github.com/ctfer-io/ctfer v0.1.0/go.mod h1:jVs+s3gRKeVKpciX7AOKSYM8ZAXOJupwnec5uA2bxvQ=
 github.com/ctfer-io/monitoring v0.1.0 h1:8vALY4mhZWEaYW5BXJv7YoTNiR9wpHK64JGzO0rwOJE=
 github.com/ctfer-io/monitoring v0.1.0/go.mod h1:V7csbhdQsXknAxTpHuYtQfEDwLJw65zy7D3PqpR+o+0=
 github.com/cyphar/filepath-securejoin v0.3.6 h1:4d9N5ykBnSp5Xn2JkhocYDkOpURL/18CYMpo6xB9uWM=
