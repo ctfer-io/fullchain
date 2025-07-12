@@ -130,6 +130,21 @@ helm install longhorn longhorn/longhorn --namespace longhorn-system --create-nam
 helm repo add metallb https://metallb.github.io/metallb
 helm install metallb metallb/metallb --namespace metallb-system --set speaker.frr.enabled=false --create-namespace --version 0.14.9
 
+# Configure Metallb addresses pool EDIT as your need
+cat <<EOF > ipaddresspool.yml
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: loadbalancer-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 10.17.12.200/32
+  autoAssign: true
+EOF
+
+kubectl apply -f ipaddresspool.yml
+
 # Install Traefik
 helm repo add traefik https://traefik.github.io/charts
 helm repo update
@@ -151,4 +166,7 @@ providers:
 EOF
 
 helm install traefik traefik/traefik --namespace ingress-controller --create-namespace --version 35.2.0 -f traefik-values.yml
+
+
+
 ```
