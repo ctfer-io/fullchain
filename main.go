@@ -33,7 +33,8 @@ func main() {
 
 		// => Monitoring
 		monConf := &monitoring.MonitoringArgs{
-			ColdExtract: cfg.ColdExtract,
+			ColdExtract:      cfg.ColdExtract,
+			StorageClassName: pulumi.String("longhorn"),
 		}
 		if cfg.Registry != "" {
 			monConf.Registry = pulumi.String(cfg.Registry)
