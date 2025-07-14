@@ -107,7 +107,7 @@ pulumi config set registry your-registry:5000
 
 ### Without CTFer-L3
 
-If you are not using the [L3](https://github.com/ctfer-io/ctfer), you need to install some Helm charts manually:
+If you are not using the [L3](https://github.com/ctfer-io/ctfer-l3), you need to install some Helm charts manually:
 - [Longhorn](https://longhorn.io/): to enable persistent storage on chall-manager, ctfd's database... ;
 - [Traefik](https://traefik.io): as ingress controller to route HTTPS traffic from outside ;
 - [Cilium](https://docs.cilium.io/): as internal CNI;
