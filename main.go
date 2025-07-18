@@ -60,7 +60,7 @@ func main() {
 				"cpu":    "1.0",
 			}),
 			PVCStorageSize: pulumi.String("10Gi"),
-			Tag:            pulumi.String("v0.4.5"),
+			Tag:            pulumi.String("v0.5.0"),
 
 			Namespace: ns.Name,
 			Otel: &common.OtelArgs{
@@ -82,7 +82,7 @@ func main() {
 		ctfdConf := &ctfer.CTFerArgs{
 			Namespace:       ns.Name,
 			Hostname:        cfg.CTFdHostname,
-			CTFdImage:       pulumi.String("ctferio/ctfd:3.7.7-0.3.4"),
+			CTFdImage:       pulumi.String("ctferio/ctfd:3.7.7-0.4.0"),
 			CTFdCrt:         cfg.CTFdCrt,
 			CTFdKey:         cfg.CTFdKey,
 			CTFdStorageSize: pulumi.String("10Gi"),
