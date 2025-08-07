@@ -13,9 +13,12 @@ import (
 
 	// romeoenv "github.com/ctfer-io/romeo/environment/deploy/parts"
 
+	// TODO the common OTEL support should be shared around github.com/ctfer-io/monitoring
+
 	"github.com/ctfer-io/chall-manager/deploy/common"
 	challmanager "github.com/ctfer-io/chall-manager/deploy/services"
 	ctfer "github.com/ctfer-io/ctfer/services"
+	ctfercommon "github.com/ctfer-io/ctfer/services/common"
 	"github.com/ctfer-io/fullchain/parts"
 	monitoring "github.com/ctfer-io/monitoring/services"
 )
@@ -61,8 +64,7 @@ func main() {
 			}),
 			PVCStorageSize: pulumi.String("10Gi"),
 			Tag:            pulumi.String("v0.5.0"),
-
-			Namespace: ns.Name,
+			Namespace:      ns.Name,
 			Otel: &common.OtelArgs{
 				Endpoint:    mon.OTEL.Endpoint,
 				ServiceName: pulumi.String(ctx.Stack()),
@@ -78,21 +80,24 @@ func main() {
 			return err
 		}
 
-		// // => CTFer/CTFd
+		// => CTFer/CTFd
 		ctfdConf := &ctfer.CTFerArgs{
-			Namespace:       ns.Name,
-			Hostname:        cfg.CTFdHostname,
-			CTFdImage:       pulumi.String("ctferio/ctfd:3.7.7-0.4.0"),
-			CTFdCrt:         cfg.CTFdCrt,
-			CTFdKey:         cfg.CTFdKey,
-			CTFdStorageSize: pulumi.String("10Gi"),
-			ChallManagerUrl: pulumi.Sprintf("http://%s/api/v1", cm.Endpoint),
-
-			// => Ingress-related configuration
+			Namespace:        ns.Name,
+			Hostname:         cfg.CTFdHostname,
+			CTFdImage:        pulumi.String("ctferio/ctfd:3.7.7-0.4.0"),
+			CTFdCrt:          cfg.CTFdCrt,
+			CTFdKey:          cfg.CTFdKey,
+			CTFdStorageSize:  pulumi.String("10Gi"),
+			ChallManagerUrl:  pulumi.Sprintf("http://%s/api/v1", cm.Endpoint),
 			IngressNamespace: pulumi.String("ingress-controller"),
 			IngressLabels: pulumi.ToStringMap(map[string]string{
 				"app.kubernetes.io/name": "traefik",
 			}),
+			Otel: &ctfercommon.OtelArgs{
+				Endpoint:    mon.OTEL.Endpoint,
+				ServiceName: pulumi.String(ctx.Stack()),
+				Insecure:    true, // XXX @pandatix fix this shit
+			},
 		}
 
 		// Air-gapped
@@ -180,6 +185,36 @@ func main() {
 						Ports: netwv1.NetworkPolicyPortArray{
 							netwv1.NetworkPolicyPortArgs{
 								Port:     parsePort(cm.Endpoint),
+								Protocol: pulumi.String("TCP"),
+							},
+						},
+					},
+				},
+			},
+		}, opts...); err != nil {
+			return err
+		}
+
+		if _, err := netwv1.NewNetworkPolicy(ctx, "ctfd-to-otel", &netwv1.NetworkPolicyArgs{
+			Metadata: metav1.ObjectMetaArgs{
+				Namespace: ns.Name,
+				Labels: pulumi.StringMap{
+					"app.kubernetes.io/part-of": pulumi.String("fullchain"),
+					"ctfer.io/stack-name":       pulumi.String(ctx.Stack()),
+				},
+			},
+			Spec: netwv1.NetworkPolicySpecArgs{
+				PolicyTypes: pulumi.ToStringArray([]string{
+					"Egress",
+				}),
+				PodSelector: metav1.LabelSelectorArgs{
+					MatchLabels: ctfer.PodLabels,
+				},
+				Egress: netwv1.NetworkPolicyEgressRuleArray{
+					netwv1.NetworkPolicyEgressRuleArgs{
+						Ports: netwv1.NetworkPolicyPortArray{
+							netwv1.NetworkPolicyPortArgs{
+								Port:     parsePort(mon.OTEL.Endpoint),
 								Protocol: pulumi.String("TCP"),
 							},
 						},
