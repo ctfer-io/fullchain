@@ -84,11 +84,11 @@ func main() {
 		ctfdConf := &ctfer.CTFerArgs{
 			Namespace:        ns.Name,
 			Hostname:         cfg.CTFdHostname,
-			CTFdImage:        pulumi.String("ctferio/ctfd:3.7.7-0.4.0"),
+			CTFdImage:        pulumi.String("ctferio/ctfd:3.7.7-0.5.0"),
 			CTFdCrt:          cfg.CTFdCrt,
 			CTFdKey:          cfg.CTFdKey,
 			CTFdStorageSize:  pulumi.String("10Gi"),
-			ChallManagerUrl:  pulumi.Sprintf("http://%s/api/v1", cm.Endpoint),
+			ChallManagerUrl:  pulumi.Sprintf("http://%s", cm.Endpoint),
 			IngressNamespace: pulumi.String("ingress-controller"),
 			IngressLabels: pulumi.ToStringMap(map[string]string{
 				"app.kubernetes.io/name": "traefik",
