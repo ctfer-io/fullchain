@@ -9,22 +9,38 @@ config:
     type: string
     description: 'An optional OCI registry to download Docker images from.'
     default: ""
+  with-inside-registry:
+    type: boolean
+    description: 'Either to deploy an OCI registry for scenarios within the Kubernetes cluster.'
+    default: false
+  registry-clusterip:
+    type: string
+    description: 'Hardcode the cluster ip for the registry''s cluster IP. Use to integrate a usable OCI registry, and in conjunction of `with-inside-registry`.'
+    default: ""
   chall-kube-config:
     type: string
     secret: true
     description: A kubeconfig to use rather than the default ServiceAccount.
     default: ""
-  ctfd-crt:
+  crt:
     type: string
     secret: true
     description: Content of the .crt x509 certificate pair
-  ctfd-key:
+  key:
     type: string
     secret: true
     description: Content of the .key x509 certificate pair
-  ctfd-hostname:
+  hostname:
     type: string
     description: The URL to use for CTFd
+  expose:
+    type: boolean
+    description: 'If set to true, exposes CTFd through a NodePort. Do not use in production, prefer using DNS and an Ingress Controller.'
+    default: false
+  storage-class-name:
+    type: string
+    description: 'The StorageClassName for the PersistenVolumeClaim.'
+    default: ''
 
 author: CTFer.io
 license: Apache-2.0
