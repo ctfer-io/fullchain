@@ -37,7 +37,7 @@ config:
   image:
     type: string
     description: 'The CTFd image to use. Defaults to CTFer.io''s image.'
-    default: 'ctferio/ctfd:3.8.0-0.6.2'
+    default: 'ctferio/ctfd:latest'
   crt:
     type: string
     secret: true
