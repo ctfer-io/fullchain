@@ -22,6 +22,22 @@ config:
     secret: true
     description: A kubeconfig to use rather than the default ServiceAccount.
     default: ""
+  chall-manager-replicas:
+    type: integer
+    description: 'The number of replicas for Chall-Manager. Defaults to 1.'
+    default: 1.0
+  etcd-replicas:
+    type: integer
+    description: 'The number of replicas for the etcd cluster used by Chall-Manager. Defaults to 1.'
+    default: 1.0
+  ctfd-replicas:
+    type: integer
+    description: 'The number of replicas of CTFd. Defaults to 1.'
+    default: 1.0
+  image:
+    type: string
+    description: 'The CTFd image to use. Defaults to CTFer.io''s image.'
+    default: 'ctferio/ctfd:latest'
   crt:
     type: string
     secret: true

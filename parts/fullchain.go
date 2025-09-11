@@ -60,14 +60,18 @@ type (
 
 		// Chall-Manager
 
-		ChallKubeConfig pulumi.StringInput
+		ChallKubeConfig      pulumi.StringInput
+		ChallManagerReplicas pulumi.IntInput
+		EtcdReplicas         pulumi.IntInput
 
 		// CTFer
 
-		Crt      pulumi.StringInput
-		Key      pulumi.StringInput
-		Hostname pulumi.StringInput
-		Expose   bool
+		Image        pulumi.StringInput
+		CTFdReplicas pulumi.IntInput
+		Crt          pulumi.StringInput
+		Key          pulumi.StringInput
+		Hostname     pulumi.StringInput
+		Expose       bool
 
 		// Common
 
@@ -151,9 +155,11 @@ func (fch *Fullchain) provision(ctx *pulumi.Context, args *FullchainArgs, opts .
 			"memory": "2Gi",
 			"cpu":    "1.0",
 		}),
-		OCIInsecure: args.WithInsideRegistry, // within the cluster, is insecure (no SM for now). Else we force secure mode
-		OCIUsername: args.OCIUsername,
-		OCIPassword: args.OCIPassword,
+		EtcdReplicas: args.EtcdReplicas,
+		Replicas:     args.ChallManagerReplicas,
+		OCIInsecure:  args.WithInsideRegistry, // within the cluster, is insecure (no SM for now). Else we force secure mode
+		OCIUsername:  args.OCIUsername,
+		OCIPassword:  args.OCIPassword,
 		Otel: &common.OtelArgs{
 			Endpoint:    fch.mon.OTEL.Endpoint,
 			ServiceName: pulumi.String(ctx.Stack()),
@@ -270,9 +276,10 @@ func (fch *Fullchain) provision(ctx *pulumi.Context, args *FullchainArgs, opts .
 	fch.ctfer, err = ctfer.NewCTFer(ctx, "platform", &ctfer.CTFerArgs{
 		Namespace:        fch.ns.Name,
 		Hostname:         args.Hostname,
-		CTFdImage:        pulumi.String("ctferio/ctfd:3.7.7-0.5.0"),
+		CTFdImage:        args.Image,
 		Crt:              args.Crt,
 		Key:              args.Key,
+		Replicas:         args.CTFdReplicas,
 		StorageSize:      pulumi.String("10Gi"),
 		ChallManagerURL:  pulumi.Sprintf("http://%s", fch.cm.Endpoint),
 		IngressNamespace: pulumi.String("ingress-controller"),
