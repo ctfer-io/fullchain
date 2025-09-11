@@ -15,18 +15,22 @@ func main() {
 		}
 
 		fch, err := parts.NewFullchain(ctx, "ctf", &parts.FullchainArgs{
-			ColdExtract:        cfg.ColdExtract,
-			Registry:           pulumi.String(cfg.Registry),
-			WithInsideRegistry: cfg.WithInsideRegistry,
-			RegistryClusterIP:  cfg.RegistryClusterIP,
-			OCIUsername:        cfg.OCIUsername,
-			OCIPassword:        cfg.OCIPassword,
-			ChallKubeConfig:    cfg.ChallKubeConfig,
-			Crt:                cfg.Crt,
-			Key:                cfg.Key,
-			Hostname:           cfg.Hostname,
-			Expose:             cfg.Expose,
-			StorageClassName:   pulumi.String(cfg.StorageClassName),
+			ColdExtract:          cfg.ColdExtract,
+			Registry:             pulumi.String(cfg.Registry),
+			WithInsideRegistry:   cfg.WithInsideRegistry,
+			RegistryClusterIP:    cfg.RegistryClusterIP,
+			OCIUsername:          cfg.OCIUsername,
+			OCIPassword:          cfg.OCIPassword,
+			ChallKubeConfig:      cfg.ChallKubeConfig,
+			ChallManagerReplicas: pulumi.Int(cfg.ChallManagerReplicas),
+			EtcdReplicas:         pulumi.Int(cfg.EtcdReplicas),
+			CTFdReplicas:         pulumi.Int(cfg.CTFdReplicas),
+			Image:                pulumi.String(cfg.Image),
+			Crt:                  cfg.Crt,
+			Key:                  cfg.Key,
+			Hostname:             cfg.Hostname,
+			Expose:               cfg.Expose,
+			StorageClassName:     pulumi.String(cfg.StorageClassName),
 		})
 		if err != nil {
 			return err
@@ -41,18 +45,22 @@ func main() {
 }
 
 type Config struct {
-	ColdExtract        bool
-	WithInsideRegistry bool
-	RegistryClusterIP  pulumi.StringPtrInput
-	OCIUsername        pulumi.StringInput
-	OCIPassword        pulumi.StringInput
-	ChallKubeConfig    pulumi.StringInput
-	Crt                pulumi.StringInput
-	Key                pulumi.StringInput
-	Hostname           pulumi.StringInput
-	Registry           string
-	Expose             bool
-	StorageClassName   string
+	ColdExtract          bool
+	WithInsideRegistry   bool
+	RegistryClusterIP    pulumi.StringPtrInput
+	OCIUsername          pulumi.StringInput
+	OCIPassword          pulumi.StringInput
+	ChallKubeConfig      pulumi.StringInput
+	ChallManagerReplicas int
+	EtcdReplicas         int
+	CTFdReplicas         int
+	Image                string
+	Crt                  pulumi.StringInput
+	Key                  pulumi.StringInput
+	Hostname             pulumi.StringInput
+	Registry             string
+	Expose               bool
+	StorageClassName     string
 }
 
 func InitConfig(ctx *pulumi.Context) (*Config, error) {
@@ -64,16 +72,21 @@ func InitConfig(ctx *pulumi.Context) (*Config, error) {
 	}
 
 	return &Config{
-		ColdExtract:        cfg.GetBool("cold-extract"),
-		WithInsideRegistry: cfg.GetBool("with-inside-registry"),
-		RegistryClusterIP:  pulumi.StringPtrFromPtr(clusterIp),
-		OCIUsername:        cfg.GetSecret("oci-username"),
-		OCIPassword:        cfg.GetSecret("oci-password"),
-		Crt:                cfg.RequireSecret("crt"),
-		Key:                cfg.RequireSecret("key"),
-		Hostname:           pulumi.String(cfg.Require("hostname")),
-		Registry:           cfg.Get("registry"),
-		Expose:             cfg.GetBool("expose"),
-		StorageClassName:   cfg.Get("storage-class-name"),
+		ColdExtract:          cfg.GetBool("cold-extract"),
+		WithInsideRegistry:   cfg.GetBool("with-inside-registry"),
+		RegistryClusterIP:    pulumi.StringPtrFromPtr(clusterIp),
+		OCIUsername:          cfg.GetSecret("oci-username"),
+		OCIPassword:          cfg.GetSecret("oci-password"),
+		ChallKubeConfig:      cfg.GetSecret("chall-kube-config"),
+		ChallManagerReplicas: cfg.GetInt("chall-manager-replicas"),
+		EtcdReplicas:         cfg.GetInt("etcd-replicas"),
+		CTFdReplicas:         cfg.GetInt("ctfd-replicas"),
+		Image:                cfg.Get("image"),
+		Crt:                  cfg.RequireSecret("crt"),
+		Key:                  cfg.RequireSecret("key"),
+		Hostname:             pulumi.String(cfg.Require("hostname")),
+		Registry:             cfg.Get("registry"),
+		Expose:               cfg.GetBool("expose"),
+		StorageClassName:     cfg.Get("storage-class-name"),
 	}, nil
 }
