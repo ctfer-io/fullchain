@@ -62,6 +62,7 @@ type (
 
 		ChallKubeConfig      pulumi.StringInput
 		ChallManagerReplicas pulumi.IntInput
+		ChallManagerEnvs     pulumi.StringMapInput
 		EtcdReplicas         pulumi.IntInput
 
 		// CTFer
@@ -165,6 +166,7 @@ func (fch *Fullchain) provision(ctx *pulumi.Context, args *FullchainArgs, opts .
 			ServiceName: pulumi.String(ctx.Stack()),
 			Insecure:    true, // XXX @pandatix fix this shit
 		},
+		Envs: args.ChallManagerEnvs,
 	}, opts...)
 	if err != nil {
 		return

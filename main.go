@@ -23,6 +23,7 @@ func main() {
 			OCIPassword:          cfg.OCIPassword,
 			ChallKubeConfig:      cfg.ChallKubeConfig,
 			ChallManagerReplicas: pulumi.Int(cfg.ChallManagerReplicas),
+			ChallManagerEnvs:     pulumi.ToStringMap(cfg.ChallManagerEnvs),
 			EtcdReplicas:         pulumi.Int(cfg.EtcdReplicas),
 			CTFdReplicas:         pulumi.Int(cfg.CTFdReplicas),
 			Image:                pulumi.String(cfg.Image),
@@ -52,6 +53,7 @@ type Config struct {
 	OCIPassword          pulumi.StringInput
 	ChallKubeConfig      pulumi.StringInput
 	ChallManagerReplicas int
+	ChallManagerEnvs     map[string]string
 	EtcdReplicas         int
 	CTFdReplicas         int
 	Image                string
@@ -71,7 +73,7 @@ func InitConfig(ctx *pulumi.Context) (*Config, error) {
 		clusterIp = &cip
 	}
 
-	return &Config{
+	config := &Config{
 		ColdExtract:          cfg.GetBool("cold-extract"),
 		WithInsideRegistry:   cfg.GetBool("with-inside-registry"),
 		RegistryClusterIP:    pulumi.StringPtrFromPtr(clusterIp),
@@ -88,5 +90,11 @@ func InitConfig(ctx *pulumi.Context) (*Config, error) {
 		Registry:             cfg.Get("registry"),
 		Expose:               cfg.GetBool("expose"),
 		StorageClassName:     cfg.Get("storage-class-name"),
-	}, nil
+	}
+
+	if err := cfg.TryObject("chall-manager-envs", &config.ChallManagerEnvs); err != nil {
+		config.ChallManagerEnvs = map[string]string{}
+	}
+
+	return config, nil
 }
