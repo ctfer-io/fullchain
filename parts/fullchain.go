@@ -69,6 +69,7 @@ type (
 
 		Image        pulumi.StringInput
 		CTFdReplicas pulumi.IntInput
+		CTFdWorkers  pulumi.IntInput
 		Crt          pulumi.StringInput
 		Key          pulumi.StringInput
 		Hostname     pulumi.StringInput
@@ -288,6 +289,7 @@ func (fch *Fullchain) provision(ctx *pulumi.Context, args *FullchainArgs, opts .
 		IngressLabels: pulumi.ToStringMap(map[string]string{
 			"app.kubernetes.io/name": "traefik",
 		}),
+		Workers: args.CTFdWorkers,
 		Annotations: pulumi.ToStringMap(map[string]string{
 			// The following serves when the LoadBalancer cannot give an ExternalIP
 			// Example: on-prem Traefik
