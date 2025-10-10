@@ -26,6 +26,7 @@ func main() {
 			ChallManagerEnvs:     pulumi.ToStringMap(cfg.ChallManagerEnvs),
 			EtcdReplicas:         pulumi.Int(cfg.EtcdReplicas),
 			CTFdReplicas:         pulumi.Int(cfg.CTFdReplicas),
+			CTFdWorkers:          pulumi.Int(cfg.CTFdWorkers),
 			Image:                pulumi.String(cfg.Image),
 			Crt:                  cfg.Crt,
 			Key:                  cfg.Key,
@@ -56,6 +57,7 @@ type Config struct {
 	ChallManagerEnvs     map[string]string
 	EtcdReplicas         int
 	CTFdReplicas         int
+	CTFdWorkers          int
 	Image                string
 	Crt                  pulumi.StringInput
 	Key                  pulumi.StringInput
@@ -83,6 +85,7 @@ func InitConfig(ctx *pulumi.Context) (*Config, error) {
 		ChallManagerReplicas: cfg.GetInt("chall-manager-replicas"),
 		EtcdReplicas:         cfg.GetInt("etcd-replicas"),
 		CTFdReplicas:         cfg.GetInt("ctfd-replicas"),
+		CTFdWorkers:          cfg.GetInt("ctfd-workers"),
 		Image:                cfg.Get("image"),
 		Crt:                  cfg.RequireSecret("crt"),
 		Key:                  cfg.RequireSecret("key"),

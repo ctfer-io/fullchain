@@ -34,6 +34,10 @@ config:
     type: integer
     description: 'The number of replicas of CTFd. Defaults to 1.'
     default: 1.0
+  ctfd-workers:
+    type: integer
+    description: 'The number of workers of CTFd per replicas. Defaults to 1.'
+    default: 1.0
   image:
     type: string
     description: 'The CTFd image to use. Defaults to CTFer.io''s image.'
