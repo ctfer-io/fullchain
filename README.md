@@ -53,18 +53,20 @@ If you want to configure a dedicated cluster for challenges, run:
 pulumi config set --secret chall-kube-config "$(cat ~/.kube/config-challenge)"
 ```
 
-5. **Set CTFd Certificates:**
+5. **Configure CTFd**
 
 ```bash
+# Configure HTTPS access
 export PULUMI_CONFIG_PASSPHRASE="xx"
-cat path/to/ctfd.crt | pulumi config set --secret ctfd-crt
-cat path/to/ctfd.key | pulumi config set --secret ctfd-key
-```
+cat path/to/ctfd.crt | pulumi config set --secret crt
+cat path/to/ctfd.key | pulumi config set --secret key
 
-6. **Set CTFd URL:**
+# Configure Ingress route
+pulumi config set hostname ctfd.yourdomain
 
-```bash
-pulumi config set ctfd-hostname ctfd.yourdomain
+# Configure the replicas and workers
+pulumi config set ctfd-replicas 3
+pulumi config set ctfd-workers 3
 ```
 
 6. **Deploy the Stack:**
