@@ -277,15 +277,16 @@ func (fch *Fullchain) provision(ctx *pulumi.Context, args *FullchainArgs, opts .
 	}
 
 	fch.ctfer, err = ctfer.NewCTFer(ctx, "platform", &ctfer.CTFerArgs{
-		Namespace:        fch.ns.Name,
-		Hostname:         args.Hostname,
-		CTFdImage:        args.Image,
-		Crt:              args.Crt,
-		Key:              args.Key,
-		Replicas:         args.CTFdReplicas,
-		StorageSize:      pulumi.String("10Gi"),
-		ChallManagerURL:  pulumi.Sprintf("http://%s", fch.cm.Endpoint),
-		IngressNamespace: pulumi.String("ingress-controller"),
+		Namespace:                 fch.ns.Name,
+		Hostname:                  args.Hostname,
+		CTFdImage:                 args.Image,
+		Crt:                       args.Crt,
+		Key:                       args.Key,
+		Replicas:                  args.CTFdReplicas,
+		StorageSize:               pulumi.String("10Gi"),
+		ChallManagerURL:           pulumi.Sprintf("http://%s", fch.cm.Endpoint),
+		PostgresOperatorNamespace: pulumi.String("postgres-operator"),  // TODO make it configurable
+		IngressNamespace:          pulumi.String("ingress-controller"), // TODO make it configurable
 		IngressLabels: pulumi.ToStringMap(map[string]string{
 			"app.kubernetes.io/name": "traefik",
 		}),

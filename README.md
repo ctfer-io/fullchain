@@ -114,6 +114,7 @@ If you are not using the [L3](https://github.com/ctfer-io/ctfer-l3), you need to
 - [Traefik](https://traefik.io): as ingress controller to route HTTPS traffic from outside ;
 - [Cilium](https://docs.cilium.io/): as internal CNI;
 - [MetalLB](https://metallb.io/): as Load Balancer used by Traefik.
+- [Postres-Operator](https://github.com/zalando/postgres-operator): to deploy PostgreSQL HA
 
 The following commands can be different depending on your Kubernetes setup (if you are using Talos based cluster):
 
@@ -169,6 +170,10 @@ EOF
 
 helm install traefik traefik/traefik --namespace ingress-controller --create-namespace --version 35.2.0 -f traefik-values.yml
 
+# add repo for postgres-operator
+helm repo add postgres-operator-charts https://opensource.zalando.com/postgres-operator/charts/postgres-operator
 
+# add repo for postgres-operator
+helm install postgres-operator postgres-operator-charts/postgres-operator --set "configKubernetes.inherited_labels={app.kubernetes.io/component,app.kubernetes.io/part-of,ctfer.io/stack-name}" --create-namespace --namespace postgres-operator
 
 ```
