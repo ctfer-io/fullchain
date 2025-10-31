@@ -147,7 +147,7 @@ func (fch *Fullchain) provision(ctx *pulumi.Context, args *FullchainArgs, opts .
 	}
 
 	fch.cm, err = challmanager.NewChallManager(ctx, "chall-manager", &challmanager.ChallManagerArgs{
-		Tag:            pulumi.String("v0.5.3"),
+		Tag:            pulumi.String("v0.6.0"),
 		Registry:       args.registry,
 		LogLevel:       pulumi.String("info"),
 		Namespace:      fch.ns.Name,
@@ -285,7 +285,7 @@ func (fch *Fullchain) provision(ctx *pulumi.Context, args *FullchainArgs, opts .
 		Replicas:                  args.CTFdReplicas,
 		StorageSize:               pulumi.String("10Gi"),
 		ChallManagerURL:           pulumi.Sprintf("http://%s", fch.cm.Endpoint),
-		PostgresOperatorNamespace: pulumi.String("postgres-operator"),  // TODO make it configurable
+		PostgresOperatorNamespace: pulumi.String("cnpg-system"),        // TODO make it configurable
 		IngressNamespace:          pulumi.String("ingress-controller"), // TODO make it configurable
 		IngressLabels: pulumi.ToStringMap(map[string]string{
 			"app.kubernetes.io/name": "traefik",
