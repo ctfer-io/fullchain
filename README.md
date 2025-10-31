@@ -170,10 +170,20 @@ EOF
 
 helm install traefik traefik/traefik --namespace ingress-controller --create-namespace --version 35.2.0 -f traefik-values.yml
 
-# add repo for postgres-operator
-helm repo add postgres-operator-charts https://opensource.zalando.com/postgres-operator/charts/postgres-operator
-
-# add repo for postgres-operator
-helm install postgres-operator postgres-operator-charts/postgres-operator --set "configKubernetes.inherited_labels={app.kubernetes.io/component,app.kubernetes.io/part-of,ctfer.io/stack-name}" --create-namespace --namespace postgres-operator
+# Install cnpg operator
+helm repo add cnpg https://cloudnative-pg.github.io/charts
+helm upgrade --install cnpg \
+  --namespace cnpg-system \
+  --create-namespace \
+  cnpg/cloudnative-pg
 
 ```
+
+## Known limitations
+
+Due to the maturity of the fullchain project, some configurations are not yet easily customizable.
+To use this project correctly, you need to:
+- Install the cnpg operator in the `cnpg-system` namespace
+- Install the ingress controller in the `ingress-controller` namespace (only Traefik has been tested so far, but nginx should also work)
+- Install cilium as CNI (+ enable Hubble for debugging, not necessary for production)
+- Use a CTFd image with `psycopg2-binary` package (or create yours with `ctferio/ctfd:0.8.0` or later as base image)
