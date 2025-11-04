@@ -46,8 +46,8 @@ github.com/containerd/console v1.0.4/go.mod h1:YynlIjWYF8myEu6sdkwKIvGQq+cOckRm6
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
 github.com/ctfer-io/chall-manager/deploy v0.5.3 h1:pSBlQ7tSRGzo+Q8OWm7jeIKrjzavVEglr8m53yzkWWk=
 github.com/ctfer-io/chall-manager/deploy v0.5.3/go.mod h1:LlUr4hqTMmBuvLBjPC//9x8QgrJV0BGbsuNZBAK86yY=
-github.com/ctfer-io/ctfer v0.4.1 h1:TrFWsVHDl6ALiovSWq5kbIGeY7DUCMkX/ibR02NMxBM=
-github.com/ctfer-io/ctfer v0.4.1/go.mod h1:4MVP3AtnXahYi6oomjjFJMpo8yVgpqiPPON4SFXY49o=
+github.com/ctfer-io/ctfer v0.5.0 h1:BVP33A/7Ytr2WfR0Tb+HdR7x9+2Uj1XPqtND+x0mbpQ=
+github.com/ctfer-io/ctfer v0.5.0/go.mod h1:dZih/tUHbwMFSuxUnxOgEQx0RqxMnbPB8agGr/yjSa8=
 github.com/ctfer-io/monitoring v0.1.0 h1:8vALY4mhZWEaYW5BXJv7YoTNiR9wpHK64JGzO0rwOJE=
 github.com/ctfer-io/monitoring v0.1.0/go.mod h1:V7csbhdQsXknAxTpHuYtQfEDwLJw65zy7D3PqpR+o+0=
 github.com/cyphar/filepath-securejoin v0.3.6 h1:4d9N5ykBnSp5Xn2JkhocYDkOpURL/18CYMpo6xB9uWM=
@@ -180,8 +180,8 @@ github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.23.0 h1:TZ/XhzF+3/jRiGsjlJHCWhXcU5
 github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.23.0/go.mod h1:jOdpeNeRvY4iN+W8aDP5+HyqrM7hXsxa9paPsmjQFfY=
 github.com/pulumi/pulumi-random/sdk/v4 v4.18.4 h1:mkZ3nB3xLTFZ8Fbh50bXTxiroGpjSyonTFcKovLxWME=
 github.com/pulumi/pulumi-random/sdk/v4 v4.18.4/go.mod h1:BBVUyqFkhCbwvUSnDjubH5b+SeJeoMQH4COGNKaaoUI=
-github.com/pulumi/pulumi/sdk/v3 v3.203.0 h1:naNpZOkGf1QaIcfB47MAh2UHW7DUh37Tg1zOdDmxx5I=
-github.com/pulumi/pulumi/sdk/v3 v3.203.0/go.mod h1:aV0+c5xpSYccWKmOjTZS9liYCqh7+peu3cQgSXu7CJw=
+github.com/pulumi/pulumi/sdk/v3 v3.205.0 h1:Cuev0D3nBUqnFnFzWsO6M5XtOdGCe7lpgSds80yROyQ=
+github.com/pulumi/pulumi/sdk/v3 v3.205.0/go.mod h1:aV0+c5xpSYccWKmOjTZS9liYCqh7+peu3cQgSXu7CJw=
 github.com/rivo/uniseg v0.1.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
 github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
 github.com/rivo/uniseg v0.4.4 h1:8TfxU8dW6PdqD27gjM8MVNuicgxIjxpm4K7x4jp8sis=
