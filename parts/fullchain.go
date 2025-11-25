@@ -147,7 +147,7 @@ func (fch *Fullchain) provision(ctx *pulumi.Context, args *FullchainArgs, opts .
 	}
 
 	fch.cm, err = challmanager.NewChallManager(ctx, "chall-manager", &challmanager.ChallManagerArgs{
-		Tag:            pulumi.String("v0.6.0"),
+		Tag:            pulumi.String("v0.6.1"),
 		Registry:       args.registry,
 		LogLevel:       pulumi.String("info"),
 		Namespace:      fch.ns.Name,
