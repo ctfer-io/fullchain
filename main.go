@@ -24,6 +24,7 @@ func main() {
 			ChallKubeConfig:      cfg.ChallKubeConfig,
 			ChallManagerReplicas: pulumi.Int(cfg.ChallManagerReplicas),
 			ChallManagerEnvs:     pulumi.ToStringMap(cfg.ChallManagerEnvs),
+			JanitorMode:          cfg.JanitorMode,
 			EtcdReplicas:         pulumi.Int(cfg.EtcdReplicas),
 			CTFdReplicas:         pulumi.Int(cfg.CTFdReplicas),
 			CTFdWorkers:          pulumi.Int(cfg.CTFdWorkers),
