@@ -55,6 +55,7 @@ type Config struct {
 	ChallKubeConfig      pulumi.StringInput
 	ChallManagerReplicas int
 	ChallManagerEnvs     map[string]string
+	JanitorMode          string
 	EtcdReplicas         int
 	CTFdReplicas         int
 	CTFdWorkers          int
@@ -83,6 +84,7 @@ func InitConfig(ctx *pulumi.Context) (*Config, error) {
 		OCIPassword:          cfg.GetSecret("oci-password"),
 		ChallKubeConfig:      cfg.GetSecret("chall-kube-config"),
 		ChallManagerReplicas: cfg.GetInt("chall-manager-replicas"),
+		JanitorMode:          cfg.Get("janitor-mode"),
 		EtcdReplicas:         cfg.GetInt("etcd-replicas"),
 		CTFdReplicas:         cfg.GetInt("ctfd-replicas"),
 		CTFdWorkers:          cfg.GetInt("ctfd-workers"),

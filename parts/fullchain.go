@@ -13,6 +13,7 @@ import (
 
 	"github.com/ctfer-io/chall-manager/deploy/common"
 	challmanager "github.com/ctfer-io/chall-manager/deploy/services"
+	"github.com/ctfer-io/chall-manager/deploy/services/parts"
 	ctfer "github.com/ctfer-io/ctfer/services"
 	ctfercommon "github.com/ctfer-io/ctfer/services/common"
 	monitoring "github.com/ctfer-io/monitoring/services"
@@ -64,6 +65,7 @@ type (
 		ChallManagerReplicas pulumi.IntInput
 		ChallManagerEnvs     pulumi.StringMapInput
 		EtcdReplicas         pulumi.IntInput
+		JanitorMode          string
 
 		// CTFer
 
@@ -162,6 +164,7 @@ func (fch *Fullchain) provision(ctx *pulumi.Context, args *FullchainArgs, opts .
 		OCIInsecure:  args.WithInsideRegistry, // within the cluster, is insecure (no SM for now). Else we force secure mode
 		OCIUsername:  args.OCIUsername,
 		OCIPassword:  args.OCIPassword,
+		JanitorMode:  parts.JanitorMode(args.JanitorMode),
 		Otel: &common.OtelArgs{
 			Endpoint:    fch.mon.OTEL.Endpoint,
 			ServiceName: pulumi.String(ctx.Stack()),
