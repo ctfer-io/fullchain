@@ -26,6 +26,10 @@ config:
     type: integer
     description: 'The number of replicas for Chall-Manager. Defaults to 1.'
     default: 1.0
+  janitor-mode:
+    type: string
+    description: 'The Chall-Manager Janitor mode. Either "ticker" or "cron".'
+    default: cron
   etcd-replicas:
     type: integer
     description: 'The number of replicas for the etcd cluster used by Chall-Manager. Defaults to 1.'
