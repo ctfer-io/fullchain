@@ -4,17 +4,18 @@ go 1.25.4
 
 require (
 	github.com/ctfer-io/chall-manager/deploy v0.6.1
-	github.com/ctfer-io/ctfer v0.5.0
+	github.com/ctfer-io/ctfer v0.6.0
 	github.com/ctfer-io/monitoring v0.1.0
 	github.com/pkg/errors v0.9.1
 	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.24.1
-	github.com/pulumi/pulumi/sdk/v3 v3.208.0
+	github.com/pulumi/pulumi-random/sdk/v4 v4.18.4
+	github.com/pulumi/pulumi/sdk/v3 v3.210.0
 	go.uber.org/multierr v1.11.0
+	golang.org/x/crypto v0.45.0
 )
 
 require (
 	dario.cat/mergo v1.0.2 // indirect
-	github.com/BurntSushi/toml v1.5.0 // indirect
 	github.com/Masterminds/goutils v1.1.1 // indirect
 	github.com/Masterminds/semver/v3 v3.4.0 // indirect
 	github.com/Masterminds/sprig/v3 v3.3.0 // indirect
@@ -76,7 +77,6 @@ require (
 	github.com/pkg/term v1.1.0 // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.20.0 // indirect
-	github.com/pulumi/pulumi-random/sdk/v4 v4.18.4 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
@@ -93,7 +93,6 @@ require (
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/zclconf/go-cty v1.17.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
-	golang.org/x/crypto v0.45.0 // indirect
 	golang.org/x/exp v0.0.0-20251113190631-e25ba8c21ef6 // indirect
 	golang.org/x/mod v0.30.0 // indirect
 	golang.org/x/net v0.47.0 // indirect

@@ -1,70 +1,133 @@
 name: fullchain
 runtime: go
 config:
-  cold-extract:
-    type: boolean
-    description: 'If set to true, turns on OpenTelemetry cold extract in files. This will export the 3 signals PersistentVolumeClaims in which data is stored.'
-    default: false
-  registry:
+  # Monitoring
+  monitoring.storage-class-name:
     type: string
-    description: 'An optional OCI registry to download Docker images from.'
-    default: ""
-  with-inside-registry:
-    type: boolean
-    description: 'Either to deploy an OCI registry for scenarios within the Kubernetes cluster.'
-    default: false
-  registry-clusterip:
-    type: string
-    description: 'Hardcode the cluster ip for the registry''s cluster IP. Use to integrate a usable OCI registry, and in conjunction of `with-inside-registry`.'
-    default: ""
-  chall-kube-config:
-    type: string
-    secret: true
-    description: A kubeconfig to use rather than the default ServiceAccount.
-    default: ""
-  chall-manager-replicas:
-    type: integer
-    description: 'The number of replicas for Chall-Manager. Defaults to 1.'
-    default: 1.0
-  janitor-mode:
-    type: string
-    description: 'The Chall-Manager Janitor mode. Either "ticker" or "cron".'
-    default: cron
-  etcd-replicas:
-    type: integer
-    description: 'The number of replicas for the etcd cluster used by Chall-Manager. Defaults to 1.'
-    default: 1.0
-  ctfd-replicas:
-    type: integer
-    description: 'The number of replicas of CTFd. Defaults to 1.'
-    default: 1.0
-  ctfd-workers:
-    type: integer
-    description: 'The number of workers of CTFd per replicas. Defaults to 1.'
-    default: 1.0
-  image:
-    type: string
-    description: 'The CTFd image to use. Defaults to CTFer.io''s image.'
-    default: 'ctferio/ctfd:latest'
-  crt:
-    type: string
-    secret: true
-    description: Content of the .crt x509 certificate pair
-  key:
-    type: string
-    secret: true
-    description: Content of the .key x509 certificate pair
-  hostname:
-    type: string
-    description: The URL to use for CTFd
-  expose:
-    type: boolean
-    description: 'If set to true, exposes CTFd through a NodePort. Do not use in production, prefer using DNS and an Ingress Controller.'
-    default: false
-  storage-class-name:
-    type: string
-    description: 'The StorageClassName for the PersistenVolumeClaim.'
     default: ''
+  monitoring.storage-size:
+    type: string
+    default: '10Gi'
+  monitoring.pvc-access-modes:
+    type: array
+    items:
+      type: string
+    default: [ 'ReadWriteMany' ]
+  monitoring.cold-extract:
+    type: boolean
+    default: false
+  
+  # ChallManager
+  chall-manager.tag:
+    type: string
+    default: 'latest'
+  chall-manager.log-level:
+    type: string
+    default: info
+  chall-manager.etcd-replicas:
+    # type: integer
+    default: 1
+  chall-manager.replicas:
+    type: integer
+    default: 1
+  chall-manager.janitor-cron:
+    type: string
+    default: '*/1 * * * *'
+  chall-manager.janitor-ticker:
+    type: string
+    default: 1m
+  chall-manager.janitor-mode:
+    type: string
+    default: ticker
+  chall-manager.pvc-access-modes:
+    type: array
+    items:
+      type: string
+    default: [ 'ReadWriteMany' ]
+  chall-manager.pvc-storage-size:
+    type: string
+    default: '10Gi'
+  chall-manager.kubeconfig:
+    type: string
+    default: '' # won't load any
+  chall-manager.requests:
+    default: {}
+  chall-manager.limits:
+    default: {}
+  chall-manager.envs:
+    default: {}
+  chall-manager.swagger:
+    type: boolean
+    default: false
+  chall-manager.oci-insecure:
+    type: boolean
+    default: false
+
+  # CTFer > Platform
+  ctfer.platform.image:
+    type: string
+    default: 'ctferio/ctfd:latest'
+  ctfer.platform.crt:
+    type: string
+    default: ''
+  ctfer.platform.key:
+    type: string
+    default: ''
+  ctfer.platform.storage-size:
+    type: string
+    default: '10Gi'
+  ctfer.platform.workers:
+    type: integer
+    default: 3 # assume 1 CPU core at least, so 2*1+1=3 (from https://docs.gunicorn.org/en/latest/design.html#how-many-workers)
+  ctfer.platform.replicas:
+    type: integer
+    default: 1
+  ctfer.platform.requests:
+    default: {}
+  ctfer.platform.limits:
+    default: {}
+  ctfer.platform.storage-class-name:
+    type : string
+    default: ''
+  ctfer.platform.pvc-access-modes:
+    type: array
+    items:
+      type: string
+    default: [ 'ReadWriteMany' ]
+  ctfer.platform.hostname:
+    type: string
+  ctfer.platform.ingress-annotations:
+    default: {}
+
+  # CTFer > DB
+  ctfer.db.storage-class-name:
+    type: string
+    default: ''
+  ctfer.db.operator-namespace:
+    type: string
+    default: ''
+  
+  # CTFer
+  ctfer.expose:
+    type: boolean
+    default: false
+
+  # OCI
+  oci.username:
+    type: string
+    default: ''
+  oci.password:
+    type: string
+    default: ''
+  oci.with-inside-registry:
+    type: boolean
+    default: false
+  oci.cluster-ip:
+    type: string
+    default: ''
+  oci.pvc-storage-size:
+    type: string
+    default: '10Gi'
 
 author: CTFer.io
 license: Apache-2.0

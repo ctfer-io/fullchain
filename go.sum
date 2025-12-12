@@ -1,7 +1,5 @@
 dario.cat/mergo v1.0.2 h1:85+piFYR1tMbRrLcDwR18y4UKJ3aH1Tbzi24VRW1TK8=
 dario.cat/mergo v1.0.2/go.mod h1:E/hbnu0NxMFBjpMIE34DRGLWqDy0g5FuKDhCb31ngxA=
-github.com/BurntSushi/toml v1.5.0 h1:W5quZX/G/csjUnuI8SUYlsHs9M38FC7znL0lIO+DvMg=
-github.com/BurntSushi/toml v1.5.0/go.mod h1:ukJfTF/6rtPPRCnwkur4qwRxa8vTRFBF0uk2lLoLwho=
 github.com/HdrHistogram/hdrhistogram-go v1.1.2 h1:5IcZpTvzydCQeHzK4Ef/D5rrSqwxob0t8PQPMybUNFM=
 github.com/HdrHistogram/hdrhistogram-go v1.1.2/go.mod h1:yDgFjdqOqDEKOvasDdhWNXYg9BVp4O+o5f6V/ehm6Oo=
 github.com/Masterminds/goutils v1.1.1 h1:5nUrii3FMTL5diU80unEVvNevw1nH4+ZV4DSLVJLSYI=
@@ -56,8 +54,8 @@ github.com/cloudflare/circl v1.6.1/go.mod h1:uddAzsPgqdMAYatqJ0lsjX1oECcQLIlRpzZ
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
 github.com/ctfer-io/chall-manager/deploy v0.6.1 h1:HpULkXZHMcssYvGQ3KK3nDmwiM/BLUi87kKM2o91TRs=
 github.com/ctfer-io/chall-manager/deploy v0.6.1/go.mod h1:Ljivvkil8voYWTyfJ31LFn0My7d8MmQSo1N11KUugWU=
-github.com/ctfer-io/ctfer v0.5.0 h1:BVP33A/7Ytr2WfR0Tb+HdR7x9+2Uj1XPqtND+x0mbpQ=
-github.com/ctfer-io/ctfer v0.5.0/go.mod h1:dZih/tUHbwMFSuxUnxOgEQx0RqxMnbPB8agGr/yjSa8=
+github.com/ctfer-io/ctfer v0.6.0 h1:1c26YYCJinodyf+ah6xc9/55g5YHJguVQKhKnrBqzng=
+github.com/ctfer-io/ctfer v0.6.0/go.mod h1:n6jC0HP3NQk1e6ixS2VhzkmIxRK2Jtt9/xqKb5fP0/4=
 github.com/ctfer-io/monitoring v0.1.0 h1:8vALY4mhZWEaYW5BXJv7YoTNiR9wpHK64JGzO0rwOJE=
 github.com/ctfer-io/monitoring v0.1.0/go.mod h1:V7csbhdQsXknAxTpHuYtQfEDwLJw65zy7D3PqpR+o+0=
 github.com/cyphar/filepath-securejoin v0.6.1 h1:5CeZ1jPXEiYt3+Z6zqprSAgSWiggmpVyciv8syjIpVE=
@@ -191,8 +189,8 @@ github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.24.1 h1:L1J2/PHgAziDXUvOWJ4HH1JBlg
 github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.24.1/go.mod h1:vNiMC/N8GNHvDwU3gQRXQ6V+kbgSl5N/lKtfrUjGuXU=
 github.com/pulumi/pulumi-random/sdk/v4 v4.18.4 h1:mkZ3nB3xLTFZ8Fbh50bXTxiroGpjSyonTFcKovLxWME=
 github.com/pulumi/pulumi-random/sdk/v4 v4.18.4/go.mod h1:BBVUyqFkhCbwvUSnDjubH5b+SeJeoMQH4COGNKaaoUI=
-github.com/pulumi/pulumi/sdk/v3 v3.208.0 h1:AUBoh7zw67NZVo1IkapOog1WBMz46DXco/7YsKBNK1s=
-github.com/pulumi/pulumi/sdk/v3 v3.208.0/go.mod h1:UsBMdaUQ+WoKoQtF2PYbQIbo8ZRJuAo1axkyit9IQVE=
+github.com/pulumi/pulumi/sdk/v3 v3.210.0 h1:QMNdfQfB7jCa/ZoY8aIfwOwApuvhnOoIH8s4umNvR3U=
+github.com/pulumi/pulumi/sdk/v3 v3.210.0/go.mod h1:0qnUzUV5ypAcdoPNOX426wV4ePMnkDvGlPBZqlizHmU=
 github.com/rivo/uniseg v0.4.7 h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=
 github.com/rivo/uniseg v0.4.7/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUcx88=
 github.com/rogpeppe/go-internal v1.14.1 h1:UQB4HGPB6osV0SQTLymcB4TgvyWu6ZyliaW0tI/otEQ=

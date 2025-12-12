@@ -3,8 +3,12 @@
   <a href=""><img src="https://img.shields.io/github/license/ctfer-io/fullchain?style=for-the-badge" alt="License"></a>
 </div>
 
-The *Fullchain* component helps you deploy a ready-to-use CTF (Capture The Flag) platform with [CTFd](https://github.com/ctfd/ctfd), [Chall-Manager](https://github.com/ctfer-io/chall-manager), and the [CTFd-chall-manager](https://github.com/ctfer-io/ctfd-chall-manager) plugins already configured.
+The *Fullchain* is an umbrella project that sacrifice the independent deployability of CTFer.io's Micro Service Architecture in profit of a ready-to-use CTF (Capture The Flag) platform.
+It deploys it on Kubernetes with no adherence for the host platform (i.e., on-premise with [L3](https://github.com/ctfer-io/l3), AWS with [Backup](https://github.com/ctfer-io/backup), or any other).
 
+Its purpose is to help deploy production-like environment that the community might end up deploying themselves, for test purposes, demonstrations, or SaaS work on sponsored events.
+
+It notably contains [CTFd](https://github.com/ctfd/ctfd), [Chall-Manager](https://github.com/ctfer-io/chall-manager), and the [CTFd-Chall-Manager](https://github.com/ctfer-io/ctfd-chall-manager) plugin already configured, along with the [Monitoring](https://github.com/ctfer-io/monitoring) stack.
 
 > [!CAUTION]
 >
