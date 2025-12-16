@@ -4,12 +4,12 @@ go 1.25.4
 
 require (
 	github.com/ctfer-io/chall-manager/deploy v0.6.1
-	github.com/ctfer-io/ctfer v0.6.0
+	github.com/ctfer-io/ctfer v0.6.1-0.20251216130318-fa4514e81adb
 	github.com/ctfer-io/monitoring v0.1.0
 	github.com/pkg/errors v0.9.1
 	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.24.1
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.4
-	github.com/pulumi/pulumi/sdk/v3 v3.210.0
+	github.com/pulumi/pulumi/sdk/v3 v3.212.0
 	go.uber.org/multierr v1.11.0
 	golang.org/x/crypto v0.45.0
 )
