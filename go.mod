@@ -4,7 +4,7 @@ go 1.25.4
 
 require (
 	github.com/ctfer-io/chall-manager/deploy v0.6.1
-	github.com/ctfer-io/ctfer v0.6.1-0.20251216130318-fa4514e81adb
+	github.com/ctfer-io/ctfer v0.6.1-0.20251217185554-6ba3e0324f48
 	github.com/ctfer-io/monitoring v0.1.0
 	github.com/pkg/errors v0.9.1
 	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.24.1
