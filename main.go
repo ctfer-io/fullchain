@@ -57,8 +57,11 @@ func main() {
 				DB: &services.DBArgs{
 					StorageClassName:  pulumi.String(cfg.CTFer.DB.StorageClassName),
 					OperatorNamespace: pulumi.String(cfg.CTFer.DB.OperatorNamespace),
+					Replicas:          pulumi.Int(cfg.CTFer.DB.Replicas),
 				},
-				Cache:  &services.CacheArgs{},
+				Cache: &services.CacheArgs{
+					Replicas: pulumi.Int(cfg.CTFer.Cache.Replicas),
+				},
 				Expose: cfg.CTFer.Expose,
 			},
 			OCI: &services.OCIArgs{
@@ -123,6 +126,7 @@ type ChallManager struct {
 type CTFer struct {
 	Platform *Platform `json:"platform"`
 	DB       *DB       `json:"db"`
+	Cache    *Cache    `json:"cache"`
 	Expose   bool      `json:"expose"`
 }
 
@@ -144,6 +148,11 @@ type Platform struct {
 type DB struct {
 	StorageClassName  string `json:"storage-class-name"`
 	OperatorNamespace string `json:"operator-namespace"`
+	Replicas          int    `json:"replicas"`
+}
+
+type Cache struct {
+	Replicas int `json:"replicas"`
 }
 
 type OCI struct {
@@ -163,6 +172,7 @@ func InitConfig(ctx *pulumi.Context) (*Config, error) {
 		CTFer: &CTFer{
 			Platform: &Platform{},
 			DB:       &DB{},
+			Cache:    &Cache{},
 		},
 		OCI:              &OCI{},
 		IngressNamespace: cfg.Get("ingress-namespace"),
@@ -177,6 +187,13 @@ func InitConfig(ctx *pulumi.Context) (*Config, error) {
 		cfg.GetObject("ingress-labels", conf.IngressLabels),
 	); err != nil {
 		return nil, err
+	}
+
+	if cpu := cfg.Get("ctfer-platform-requests-cpu"); cpu != "" {
+		conf.CTFer.Platform.Requests["cpu"] = cpu
+	}
+	if memory := cfg.Get("ctfer-platform-requests-memory"); memory != "" {
+		conf.CTFer.Platform.Requests["memory"] = memory
 	}
 
 	return conf, nil

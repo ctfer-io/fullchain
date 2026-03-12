@@ -84,7 +84,7 @@ type (
 
 		// Romeo args are not binded as the fullchain is not supposed to provide code-level measurements
 
-		// TODO APIServerTemplate should be binded globally, as shared between multiple components
+		// TODO APIServerTemplate should be binded globally, as shared between multiple components. Tho, their current usage hardcode a name
 	}
 
 	CTFerArgs struct {
@@ -123,11 +123,15 @@ type (
 		StorageClassName pulumi.StringInput
 
 		OperatorNamespace pulumi.StringInput
+
+		Replicas pulumi.IntInput
 	}
 
 	// CacheArgs is the encapsulation of platform-specific arguments.
 	// Current choice is Redis.
-	CacheArgs struct{}
+	CacheArgs struct {
+		Replicas pulumi.IntInput
+	}
 
 	// OCIArgs is the encapsulation of internal OCI registry.
 	// It could be used to host challenges containers or Chall-Manager scenarios.
@@ -408,8 +412,11 @@ func (fch *Fullchain) provision(ctx *pulumi.Context, args *FullchainArgs, opts .
 		DB: &ctfer.DBArgs{
 			StorageClassName:  args.CTFer.DB.StorageClassName,
 			OperatorNamespace: args.CTFer.DB.OperatorNamespace,
+			Replicas:          args.CTFer.DB.Replicas,
 		},
-		Cache:            &ctfer.CacheArgs{},
+		Cache: &ctfer.CacheArgs{
+			Replicas: args.CTFer.Cache.Replicas,
+		},
 		ChartsRepository: args.registry, // XXX having a chart repositry sucks, we have an OCI one and that's it
 		ImagesRepository: args.registry,
 		IngressNamespace: args.IngressNamespace,

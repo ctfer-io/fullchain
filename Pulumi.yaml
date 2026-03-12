@@ -25,7 +25,7 @@ config:
     type: string
     default: info
   chall-manager.etcd-replicas:
-    # type: integer
+    type: integer
     default: 1
   chall-manager.replicas:
     type: integer
@@ -96,6 +96,7 @@ config:
     default: [ 'ReadWriteMany' ]
   ctfer.platform.hostname:
     type: string
+    default: 'localhost'
   ctfer.platform.ingress-annotations:
     default: {}
 
@@ -106,6 +107,14 @@ config:
   ctfer.db.operator-namespace:
     type: string
     default: ''
+  ctfer.db.replicas:
+    type: integer
+    default: 1
+
+  # CTFer > Cache
+  ctfer.cache.replicas:
+    type: integer
+    default: 1
   
   # CTFer
   ctfer.expose:
