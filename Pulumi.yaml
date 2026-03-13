@@ -28,7 +28,7 @@ config:
   monitoring.cold-extract:
     type: boolean
     default: false
-  
+
   # ChallManager
   chall-manager.tag:
     type: string
@@ -127,7 +127,7 @@ config:
   ctfer.cache.replicas:
     type: integer
     default: 1
-  
+
   # CTFer
   ctfer.expose:
     type: boolean
