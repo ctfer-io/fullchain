@@ -94,24 +94,24 @@ For air-gap environments, you need to download all images and upload them into y
 The following actions must be performed before the `pulumi up -y`.
 
 1. Navigate to the `hack` directory:
-  ```bash
-  cd hack
-  ```
+    ```bash
+    cd hack
+    ```
 
 2. Synchronize images with Hauler:
-  ```bash
-  hauler store sync -f chaine-totale.yml
-  ```
+    ```bash
+    hauler store sync -f chaine-totale.yml
+    ```
 
 3. Copy images to your registry:
-  ```bash
-  hauler store copy registry://your-registry:5000
-  ```
+    ```bash
+    hauler store copy registry://your-registry:5000
+    ```
 
 4. Configure the Registry to use on your stack:
-  ```bash
-  pulumi config set registry your-registry:5000
-  ```
+    ```bash
+    pulumi config set registry your-registry:5000
+    ```
 
 ### Let's do it!
 
