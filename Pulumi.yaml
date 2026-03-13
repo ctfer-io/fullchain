@@ -1,6 +1,18 @@
 name: fullchain
 runtime: go
 config:
+  registry:
+    type: string
+    description: "An optional OCI registry to look for Docker images and Helm charts."
+    default: ''
+  ingress-labels:
+    description: "The Ingress Controller labels, for network filtering purposes."
+    default: {}
+  ingress-namespace:
+    type: string
+    description: "The Ingress Controller namespace, for network filtering purposes."
+    default: 'ingress-controller'
+
   # Monitoring
   monitoring.storage-class-name:
     type: string
@@ -106,7 +118,7 @@ config:
     default: ''
   ctfer.db.operator-namespace:
     type: string
-    default: ''
+    default: 'cnpg-system'
   ctfer.db.replicas:
     type: integer
     default: 1
