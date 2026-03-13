@@ -184,7 +184,7 @@ func InitConfig(ctx *pulumi.Context) (*Config, error) {
 		cfg.GetObject("chall-manager", conf.ChallManager),
 		cfg.GetObject("ctfer", conf.CTFer),
 		cfg.GetObject("oci", conf.OCI),
-		cfg.GetObject("ingress-labels", conf.IngressLabels),
+		cfg.GetObject("ingress-labels", &conf.IngressLabels),
 	); err != nil {
 		return nil, err
 	}
