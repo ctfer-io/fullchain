@@ -1,87 +1,93 @@
 <div align="center">
   <h1>Fullchain</h1>
+  <a href="https://pkg.go.dev/github.com/ctfer-io/fullchain"><img src="https://shields.io/badge/-reference-blue?logo=go&style=for-the-badge" alt="reference"></a>
+  <a href="https://goreportcard.com/report/github.com/ctfer-io/fullchain"><img src="https://goreportcard.com/badge/github.com/ctfer-io/fullchain?style=for-the-badge" alt="go report"></a>
+  <a href="https://coveralls.io/github/ctfer-io/fullchain?branch=main"><img src="https://img.shields.io/coverallsCoverage/github/ctfer-io/fullchain?style=for-the-badge" alt="Coverage Status"></a>
+  <br>
   <a href=""><img src="https://img.shields.io/github/license/ctfer-io/fullchain?style=for-the-badge" alt="License"></a>
+  <a href="https://github.com/ctfer-io/fullchain/actions?query=workflow%3Aci+"><img src="https://img.shields.io/github/actions/workflow/status/ctfer-io/fullchain/ci.yaml?style=for-the-badge&label=CI" alt="CI"></a>
+  <a href="https://github.com/ctfer-io/fullchain/actions/workflows/codeql-analysis.yaml"><img src="https://img.shields.io/github/actions/workflow/status/ctfer-io/fullchain/codeql-analysis.yaml?style=for-the-badge&label=CodeQL" alt="CodeQL"></a>
+  <br>
+  <a href="https://securityscorecards.dev/viewer/?uri=github.com/ctfer-io/fullchain"><img src="https://img.shields.io/ossf-scorecard/github.com/ctfer-io/fullchain?label=openssf%20scorecard&style=for-the-badge" alt="OpenSSF Scoreboard"></a>
 </div>
 
-The *Fullchain* is an umbrella project that sacrifice the independent deployability of CTFer.io's Micro Service Architecture in profit of a ready-to-use CTF (Capture The Flag) platform.
-It deploys it on Kubernetes with no adherence for the host platform (i.e., on-premise with [L3](https://github.com/ctfer-io/l3), AWS with [Backup](https://github.com/ctfer-io/backup), or any other).
+The _Fullchain_ is an umbrella project that sacrifices the [independent deployability](https://microservices.io/post/architecture/2022/05/04/microservice-architecture-essentials-deployability.html) of CTFer.io's stack in favor of a ready-to-use CTF (Capture The Flag) platform.
 
 Its purpose is to help deploy production-like environment that the community might end up deploying themselves, for test purposes, demonstrations, or SaaS work on sponsored events.
 
-It notably contains [CTFd](https://github.com/ctfd/ctfd), [Chall-Manager](https://github.com/ctfer-io/chall-manager), and the [CTFd-Chall-Manager](https://github.com/ctfer-io/ctfd-chall-manager) plugin already configured, along with the [Monitoring](https://github.com/ctfer-io/monitoring) stack.
+It notably contains [CTFd](https://github.com/ctfd/ctfd) through our [re-packaged image](https://github.com/ctfer-io/ctfd-packaged), [Chall-Manager](https://github.com/ctfer-io/chall-manager) and [its CTFd plugin](https://github.com/ctfer-io/ctfd-chall-manager) already configured, along with the [Monitoring](https://github.com/ctfer-io/monitoring) stack. This list is expected to grow through time, as more services become mature enough for CTF infrastructures.
+
+<div align="center">
+  <img src="res/architecture.excalidraw.png" alt="The Fullchain architecture." width="600px">
+</div>
 
 > [!CAUTION]
 >
 > This component is an **internal** work mostly used for development purposes.
 > It is used for production purposes too, i.e. on Capture The Flag events.
 >
-> Nonetheless, **we do not include it in the repositories we are actively maintaining**.
+> Nonetheless, **we do not include it in the repositories we are actively maintaining**, and is subject to future major changes with no migration capability.
 
-## Table of Contents
+## 📦 Deployment
 
-- [Getting Started](#getting-started)
-- [Advanced Setup](#advanced-setup)
+### Configuration
 
-## Getting Started
+The default configuration will work, but you might not end up with a ✨ _perfect_ 🤌 setup.
 
-To get started with the Fullchain project and deploy it inside your cluster, follow these steps:
+To do so, you can look at the whole [`Pulumi.yaml`](Pulumi.yaml) configuration.
+We detail some of them here.
 
-For now, the `github.com/ctfer-io/ctfer` dependency is **private** and needs some tricks to use it.
+#### Dedicated Challenges Cluster
 
-1. **Set up SSH Agent and Add SSH Key:**
-
-```bash
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
-export GOPRIVATE=github.com/ctfer-io/ctfer
-```
-
-2. **Download all dependencies:**
+If you want to configure a dedicated cluster for challenges.
 
 ```bash
-go mod tidy
+# export PULUMI_CONFIG_PASSPHRASE before
+# https://github.com/pulumi/pulumi/issues/6015
+cat /path/to/kubeconfig | pulumi config set --secret --path chall-manager.kubeconfig
 ```
 
-3. **Initialize Pulumi Stack:**
+#### Custom Certificate
+
+If you want to use a custom certificate.
+We **HIGHLY** recommend it for production purposes, especially to avoid MitM attacks, credentials leakage and so on.
 
 ```bash
-pulumi login --local
-pulumi stack init prod
+# export PULUMI_CONFIG_PASSPHRASE before
+# https://github.com/pulumi/pulumi/issues/6015
+cat /path/to/crt.pem | pulumi config set --secret --path ctfer.platform.crt
+cat /path/to/key.pem | pulumi config set --secret --path ctfer.platform.key
 ```
 
-4. **Configure Dedicated Challenges Cluster (Optional):**
+#### DNS Ingress hostname
 
-If you want to configure a dedicated cluster for challenges, run:
+If you want to expose your CTF platform to external people, through a DNS name.
 
 ```bash
-pulumi config set --secret chall-kube-config "$(cat ~/.kube/config-challenge)"
+pulumi config set --path ctfer.platform.hostname ctfd.yourdomain
 ```
 
-5. **Configure CTFd**
+#### Workers and Replicas
+
+If you want to configure several workers on CTFd.
 
 ```bash
-# Configure HTTPS access
-export PULUMI_CONFIG_PASSPHRASE="xx"
-cat path/to/ctfd.crt | pulumi config set --secret crt
-cat path/to/ctfd.key | pulumi config set --secret key
-
-# Configure Ingress route
-pulumi config set hostname ctfd.yourdomain
-
-# Configure the replicas and workers
-pulumi config set ctfd-replicas 3
-pulumi config set ctfd-workers 3
+pulumi config set-all \
+  --path ctfer.platform.workers 3 \
+  --path ctfer.platform.replicas 3
 ```
 
-6. **Deploy the Stack:**
+> [!WARNING]
+> You will need a ReadWriteMany compatible CSI (e.g., Longhorn) if the Pods are scheduled on several nodes
+> ```bash
+> pulumi config set-all \
+>   --path ctfer.platform.pvc-access-modes[0] ReadWriteMany \
+>   --path ctfer.platform.storage-class longhorn
+> ```
 
-```bash
-pulumi up -y
-```
+### Air-gap environments
 
-## Advanced Setup
-
-### Air-Gap Environment
+If you don't need air-gap settings, you can **directly skip to [the deployment](#lets-do-it)**.
 
 For air-gap environments, you need to download all images and upload them into your registry before deployment. You can use [Hauler](https://docs.hauler.dev/) to download and push all images at once.
 
@@ -111,83 +117,25 @@ hauler store copy registry://your-registry:5000
 pulumi config set registry your-registry:5000
 ```
 
-### Without CTFer-L3
+### Let's do it!
 
-If you are not using the [L3](https://github.com/ctfer-io/ctfer-l3), you need to install some Helm charts manually:
-- [Longhorn](https://longhorn.io/): to enable persistent storage on chall-manager, ctfd's database... ;
-- [Traefik](https://traefik.io): as ingress controller to route HTTPS traffic from outside ;
-- [Cilium](https://docs.cilium.io/): as internal CNI;
-- [MetalLB](https://metallb.io/): as Load Balancer used by Traefik.
-- [Postres-Operator](https://github.com/zalando/postgres-operator): to deploy PostgreSQL HA
-
-The following commands can be different depending on your Kubernetes setup (if you are using Talos based cluster):
+Now the last-mile for infrastructure-specific configuration, and you should be good to deploy CTFer! 💪
 
 ```bash
-# Install Cilium CNI
-helm repo add cilium https://helm.cilium.io/
-helm repo update
-helm install cilium cilium/cilium --version 1.17.5 --namespace kube-system
+pulumi config set-all \
+  --path platform.hostname ctfd.dev1.ctfer-io.lab \
+  --path ingress-labels.name traefik \
+  --path db.operator-namespace cnpg-system
 
-# Install Longhorn
-helm repo add longhorn https://charts.longhorn.io
-helm repo update
-helm install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace --version 1.9.0
-
-# Install MetalLB
-helm repo add metallb https://metallb.github.io/metallb
-helm install metallb metallb/metallb --namespace metallb-system --set speaker.frr.enabled=false --create-namespace --version 0.14.9
-
-# Configure Metallb addresses pool EDIT as your need
-cat <<EOF > ipaddresspool.yml
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  name: loadbalancer-pool
-  namespace: metallb-system
-spec:
-  addresses:
-  - 10.17.12.200/32
-  autoAssign: true
-EOF
-
-kubectl apply -f ipaddresspool.yml
-
-# Install Traefik
-helm repo add traefik https://traefik.github.io/charts
-helm repo update
-
-cat <<EOF > traefik-values.yml
-ports:
-  web:
-    redirections:
-      entryPoint:
-        scheme: https
-        to: websecure
-  websecure:
-    asDefault: true
-providers:
-  kubernetesCRD:
-    enabled: true
-  kubernetesIngress:
-    allowCrossNamespace: true
-EOF
-
-helm install traefik traefik/traefik --namespace ingress-controller --create-namespace --version 35.2.0 -f traefik-values.yml
-
-# Install cnpg operator
-helm repo add cnpg https://cloudnative-pg.github.io/charts
-helm upgrade --install cnpg \
-  --namespace cnpg-system \
-  --create-namespace \
-  cnpg/cloudnative-pg
-
+pulumi up
 ```
 
-## Known limitations
+## 🏗️ Known limitations
 
-Due to the maturity of the fullchain project, some configurations are not yet easily customizable.
-To use this project correctly, you need to:
-- Install the cnpg operator in the `cnpg-system` namespace
-- Install the ingress controller in the `ingress-controller` namespace (only Traefik has been tested so far, but nginx should also work)
-- Install cilium as CNI (+ enable Hubble for debugging, not necessary for production)
-- Use a CTFd image with `psycopg2-binary` package (or create yours with `ctferio/ctfd:0.8.0` or later as base image)
+Due to the maturity of the Fullchain some configurations are not yet easily customizable.
+
+To use this project correctly, we recommend you:
+- install the CNPG operator in the `cnpg-system` namespace ;
+- install the Ingress Controller in the `ingress-controller` namespace ;
+- install Cilium as the CNI (and enable Hubble for debugging, perhaps is not necessary for production) ;
+- use a CTFd image with `psycopg2-binary` package, for instance [our repackaged image](https://github.com/ctfe-io/ctfd-packaged) (or create yours with `ctferio/ctfd`).
