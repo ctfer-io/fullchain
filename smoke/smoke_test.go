@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/pulumi/pulumi/pkg/v3/testing/integration"
 )
@@ -28,9 +27,6 @@ func Test_S_Smoke(t *testing.T) {
 		},
 		Env: []string{
 			fmt.Sprintf("GOCOVERDIR=%s", filepath.Join(pwd, "..", "coverdir")),
-		},
-		ExtraRuntimeValidation: func(t *testing.T, stack integration.RuntimeValidationStackInfo) {
-			time.Sleep(time.Minute)
 		},
 	})
 }

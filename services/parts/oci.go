@@ -184,7 +184,7 @@ func (oci *OCI) provision(ctx *pulumi.Context, args *OCIArgs, opts ...pulumi.Res
 		Metadata: metav1.ObjectMetaArgs{
 			Namespace: args.Namespace,
 			Labels: pulumi.StringMap{
-				"app.kubernetes.io/component": pulumi.String("fullchain"),
+				"app.kubernetes.io/component": pulumi.String("oci"),
 				"app.kubernetes.io/part-of":   pulumi.String("fullchain"),
 				"ctfer.io/stack-name":         pulumi.String(ctx.Stack()),
 			},
@@ -216,7 +216,7 @@ func (oci *OCI) provision(ctx *pulumi.Context, args *OCIArgs, opts ...pulumi.Res
 		Metadata: metav1.ObjectMetaArgs{
 			Namespace: args.Namespace,
 			Labels: pulumi.StringMap{
-				"app.kubernetes.io/component": pulumi.String("fullchain"),
+				"app.kubernetes.io/component": pulumi.String("oci"),
 				"app.kubernetes.io/part-of":   pulumi.String("fullchain"),
 				"ctfer.io/stack-name":         pulumi.String(ctx.Stack()),
 			},
@@ -235,7 +235,7 @@ func (oci *OCI) provision(ctx *pulumi.Context, args *OCIArgs, opts ...pulumi.Res
 			Metadata: metav1.ObjectMetaArgs{
 				Namespace: args.Namespace,
 				Labels: pulumi.StringMap{
-					"app.kubernetes.io/component": pulumi.String("fullchain"),
+					"app.kubernetes.io/component": pulumi.String("oci"),
 					"app.kubernetes.io/part-of":   pulumi.String("fullchain"),
 					"ctfer.io/stack-name":         pulumi.String(ctx.Stack()),
 				},
@@ -262,7 +262,7 @@ func (oci *OCI) provision(ctx *pulumi.Context, args *OCIArgs, opts ...pulumi.Res
 			Labels: pulumi.StringMap{
 				"app.kubernetes.io/name":      pulumi.String("oci"),
 				"app.kubernetes.io/version":   pulumi.String("3"),
-				"app.kubernetes.io/component": pulumi.String("fullchain"),
+				"app.kubernetes.io/component": pulumi.String("oci"),
 				"app.kubernetes.io/part-of":   pulumi.String("fullchain"),
 				"ctfer.io/stack-name":         pulumi.String(ctx.Stack()),
 			},
@@ -272,7 +272,7 @@ func (oci *OCI) provision(ctx *pulumi.Context, args *OCIArgs, opts ...pulumi.Res
 				MatchLabels: pulumi.StringMap{
 					"app.kubernetes.io/name":      pulumi.String("oci"),
 					"app.kubernetes.io/version":   pulumi.String("3"),
-					"app.kubernetes.io/component": pulumi.String("fullchain"),
+					"app.kubernetes.io/component": pulumi.String("oci"),
 					"app.kubernetes.io/part-of":   pulumi.String("fullchain"),
 					"ctfer.io/stack-name":         pulumi.String(ctx.Stack()),
 				},
@@ -283,7 +283,7 @@ func (oci *OCI) provision(ctx *pulumi.Context, args *OCIArgs, opts ...pulumi.Res
 					Labels: pulumi.StringMap{
 						"app.kubernetes.io/name":      pulumi.String("oci"),
 						"app.kubernetes.io/version":   pulumi.String("3"),
-						"app.kubernetes.io/component": pulumi.String("fullchain"),
+						"app.kubernetes.io/component": pulumi.String("oci"),
 						"app.kubernetes.io/part-of":   pulumi.String("fullchain"),
 						"ctfer.io/stack-name":         pulumi.String(ctx.Stack()),
 					},
@@ -421,7 +421,7 @@ func (oci *OCI) provision(ctx *pulumi.Context, args *OCIArgs, opts ...pulumi.Res
 			Namespace: args.Namespace,
 			Name:      pulumi.String("oci"),
 			Labels: pulumi.StringMap{
-				"app.kubernetes.io/component": pulumi.String("fullchain"),
+				"app.kubernetes.io/component": pulumi.String("oci"),
 				"app.kubernetes.io/part-of":   pulumi.String("fullchain"),
 				"ctfer.io/stack-name":         pulumi.String(ctx.Stack()),
 			},
@@ -446,9 +446,9 @@ func (oci *OCI) provision(ctx *pulumi.Context, args *OCIArgs, opts ...pulumi.Res
 		Metadata: metav1.ObjectMetaArgs{
 			Namespace: args.Namespace,
 			Labels: pulumi.StringMap{
-				"app.kubernetes.io/components": pulumi.String("fullchain"),
-				"app.kubernetes.io/part-of":    pulumi.String("fullchain"),
-				"ctfer.io/stack-name":          pulumi.String(ctx.Stack()),
+				"app.kubernetes.io/component": pulumi.String("oci"),
+				"app.kubernetes.io/part-of":   pulumi.String("fullchain"),
+				"ctfer.io/stack-name":         pulumi.String(ctx.Stack()),
 			},
 		},
 		Spec: netwv1.NetworkPolicySpecArgs{
