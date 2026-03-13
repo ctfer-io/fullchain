@@ -49,7 +49,7 @@ func main() {
 					Replicas:           pulumi.Int(cfg.CTFer.Platform.Replicas),
 					Requests:           pulumi.ToStringMap(cfg.CTFer.Platform.Requests),
 					Limits:             pulumi.ToStringMap(cfg.CTFer.Platform.Limits),
-					StorageClassName:   pulumi.String(cfg.CTFer.Platform.StorageClassName),
+					StorageClass:       pulumi.String(cfg.CTFer.Platform.StorageClass),
 					PVCAccessModes:     pulumi.ToStringArray(cfg.CTFer.Platform.PVCAccessModes),
 					Hostname:           pulumi.String(cfg.CTFer.Platform.Hostname),
 					IngressAnnotations: pulumi.ToStringMap(cfg.CTFer.Platform.IngressAnnotations),
@@ -139,7 +139,7 @@ type Platform struct {
 	Replicas           int               `json:"replicas"`
 	Requests           map[string]string `json:"requests"`
 	Limits             map[string]string `json:"limits"`
-	StorageClassName   string            `json:"storage-class-name"`
+	StorageClass       string            `json:"storage-class"`
 	PVCAccessModes     []string          `json:"pvc-access-modes"`
 	Hostname           string            `json:"hostname"`
 	IngressAnnotations map[string]string `json:"ingress-annotations"`

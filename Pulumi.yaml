@@ -86,7 +86,7 @@ config:
     default: {}
   ctfer.platform.limits:
     default: {}
-  ctfer.platform.storage-class-name:
+  ctfer.platform.storage-class:
     type : string
     default: ''
   ctfer.platform.pvc-access-modes:

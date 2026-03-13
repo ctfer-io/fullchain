@@ -108,7 +108,7 @@ type (
 		Requests    pulumi.StringMapInput
 		Limits      pulumi.StringMapInput
 
-		StorageClassName pulumi.StringInput
+		StorageClass pulumi.StringInput
 
 		// PVCAccessModes defines the access modes supported by the PVC.
 		PVCAccessModes pulumi.StringArrayInput
@@ -404,7 +404,7 @@ func (fch *Fullchain) provision(ctx *pulumi.Context, args *FullchainArgs, opts .
 			Replicas:           args.CTFer.Platform.Replicas,
 			Requests:           args.CTFer.Platform.Requests,
 			Limits:             args.CTFer.Platform.Limits,
-			StorageClassName:   args.CTFer.Platform.StorageClassName,
+			StorageClassName:   args.CTFer.Platform.StorageClass,
 			PVCAccessModes:     args.CTFer.Platform.PVCAccessModes,
 			Hostname:           args.CTFer.Platform.Hostname,
 			IngressAnnotations: args.CTFer.Platform.IngressAnnotations,
