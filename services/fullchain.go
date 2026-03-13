@@ -84,7 +84,8 @@ type (
 
 		// Romeo args are not binded as the fullchain is not supposed to provide code-level measurements
 
-		// TODO APIServerTemplate should be binded globally, as shared between multiple components. Tho, their current usage hardcode a name
+		// TODO APIServerTemplate should be binded globally, as shared between multiple components.
+		// Tho, their current usage hardcode a name
 	}
 
 	CTFerArgs struct {
