@@ -24,6 +24,8 @@ func Test_S_Smoke(t *testing.T) {
 			// Redefine the CTFer's platform requests so it is compatible with in-CI restrictions.
 			"ctfer-platform-requests-cpu":    "200m",  // we might be too short for more
 			"ctfer-platform-requests-memory": "256Mi", // here we have plenty space
+			// Deploy an in-cluster OCI registry for Chall-Manager to simulate dev environments
+			"oci-with-inside-registry": "true",
 		},
 		Env: []string{
 			fmt.Sprintf("GOCOVERDIR=%s", filepath.Join(pwd, "..", "coverdir")),
