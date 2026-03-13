@@ -120,8 +120,7 @@ Now the last-mile for infrastructure-specific configuration, and you should be g
 ```bash
 pulumi config set-all \
   --path platform.hostname ctfd.dev1.ctfer-io.lab \
-  --path ingress-labels.name traefik \
-  --path db.operator-namespace cnpg-system
+  --path ingress-labels.name traefik
 
 pulumi up
 ```
