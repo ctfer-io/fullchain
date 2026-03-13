@@ -195,6 +195,9 @@ func InitConfig(ctx *pulumi.Context) (*Config, error) {
 	if memory := cfg.Get("ctfer-platform-requests-memory"); memory != "" {
 		conf.CTFer.Platform.Requests["memory"] = memory
 	}
+	if inside := cfg.GetBool("oci-with-inside-registry"); inside {
+		conf.OCI.WithInsideRegistry = true
+	}
 
 	return conf, nil
 }
