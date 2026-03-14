@@ -141,12 +141,12 @@ github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGX
 github.com/cncf/xds/go v0.0.0-20251210132809-ee656c7534f5 h1:6xNmx7iTtyBRev0+D/Tv1FZd4SCg8axKApyNyRsAt/w=
 github.com/cncf/xds/go v0.0.0-20251210132809-ee656c7534f5/go.mod h1:KdCmV+x/BuvyMxRnYBlmVaq4OLiKW6iRQfvC62cvdkI=
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
-github.com/ctfer-io/chall-manager/deploy v0.6.4 h1:kZAXBGuXwm+CDSDosfY+eOrrYL49HAEB5V+YEUbiorg=
-github.com/ctfer-io/chall-manager/deploy v0.6.4/go.mod h1:XUg95QdgoxKhQiK6jg6CMwYXF8qQeeJ6ZPg4gTGDAtU=
+github.com/ctfer-io/chall-manager/deploy v0.6.5 h1:HDaxmaQuI7Tkx4KPCM1cV/W+bZ3FW8yNeRL+Eqq0Pug=
+github.com/ctfer-io/chall-manager/deploy v0.6.5/go.mod h1:GS8wYeILiyyjmk5FJYLrvi0HnUb68Vco9WNSMXZMF3c=
 github.com/ctfer-io/ctfer v0.7.0 h1:EXNJJPz/Xnx/SoiBvbFxo5MVjOWlalQZ2rmz7Rhl5fY=
 github.com/ctfer-io/ctfer v0.7.0/go.mod h1:SPlg450ooTBT4hP0m8lMUT7vzVMA/QXWIfNULc+0um4=
-github.com/ctfer-io/monitoring v0.2.0 h1:G/GrSovjEBe54uB2enYRPaRB+ejo+LZfq2Tqgyrhgx4=
-github.com/ctfer-io/monitoring v0.2.0/go.mod h1:G+CFEzUokKFTpOAihRWKbkcjeakKvAhmCRSfQXeBV9Q=
+github.com/ctfer-io/monitoring v0.2.1 h1:Z7YamVUi9FLWKGRZdferOFvFOUgHZfxs/BH32GaWuQk=
+github.com/ctfer-io/monitoring v0.2.1/go.mod h1:FG53cYngi0TorBG01MrcLJ2nXtwXTSJPfaPcT7Wxe7Q=
 github.com/cyphar/filepath-securejoin v0.6.1 h1:5CeZ1jPXEiYt3+Z6zqprSAgSWiggmpVyciv8syjIpVE=
 github.com/cyphar/filepath-securejoin v0.6.1/go.mod h1:A8hd4EnAeyujCJRrICiOWqjS1AX0a9kM5XL+NwKoYSc=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
