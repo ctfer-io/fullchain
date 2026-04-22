@@ -133,4 +133,4 @@ To use this project correctly, we recommend you:
 - install the CNPG operator in the `cnpg-system` namespace ;
 - install the Ingress Controller in the `ingress-controller` namespace ;
 - install Cilium as the CNI (and enable Hubble for debugging, perhaps is not necessary for production) ;
-- use a CTFd image with `psycopg2-binary` package, for instance [our repackaged image](https://github.com/ctfe-io/ctfd-packaged) (or create yours with `ctferio/ctfd`).
+- use a CTFd image with `psycopg2-binary` package, for instance [our repackaged image](https://github.com/ctfer-io/ctfd-packaged) (or create yours with `ctferio/ctfd`).
