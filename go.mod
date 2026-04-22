@@ -8,7 +8,7 @@ require (
 	github.com/ctfer-io/monitoring v0.2.2
 	github.com/pkg/errors v0.9.1
 	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.29.0
-	github.com/pulumi/pulumi-random/sdk/v4 v4.19.1
+	github.com/pulumi/pulumi-random/sdk/v4 v4.19.2
 	github.com/pulumi/pulumi/pkg/v3 v3.227.0
 	github.com/pulumi/pulumi/sdk/v3 v3.230.0
 	go.uber.org/multierr v1.11.0
