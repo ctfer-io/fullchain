@@ -9,8 +9,8 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.34.3
 	github.com/pulumi/pulumi-random/sdk/v4 v4.21.6
-	github.com/pulumi/pulumi/pkg/v3 v3.276.0
-	github.com/pulumi/pulumi/sdk/v3 v3.276.0
+	github.com/pulumi/pulumi/pkg/v3 v3.277.0
+	github.com/pulumi/pulumi/sdk/v3 v3.277.0
 	go.uber.org/multierr v1.11.0
 	golang.org/x/crypto v0.59.0
 	gopkg.in/yaml.v3 v3.0.1
